@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In — CIPHER Protocol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script type="module" src="/src/signin.js"></script>
+  <style>
+    /* ─── Auth layout ──────────────────────────────────────────────────────── */
+    body { min-height: 100vh; }
+
+    .auth-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(0,245,212,.06) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 20%, rgba(245,0,213,.05) 0%, transparent 55%),
+        radial-gradient(ellipse at 60% 80%, rgba(112,0,255,.04) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    /* Animated grid lines */
+    .auth-grid {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(0,245,212,.04) 1px, transparent 1px),
+        linear-gradient(to right, rgba(0,245,212,.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    .auth-page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    /* Back to home */
+    .auth-back {
+      position: fixed;
+      top: 1.5rem;
+      left: 2rem;
+      font-family: var(--mono, monospace);
+      font-size: .75rem;
+      letter-spacing: .08em;
+      color: #9090b8;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      transition: color .2s;
+      z-index: 10;
+    }
+    .auth-back:hover { color: #00f5d4; }
+    .auth-back svg { width: 14px; }
+
+    /* Card */
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+      background: rgba(10,10,30,.85);
+      border: 1px solid rgba(0,245,212,.15);
+      border-radius: 16px;
+      padding: 2.5rem;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 0 60px rgba(0,245,212,.05), 0 40px 80px rgba(0,0,0,.4);
+    }
+
+    .auth-logo {
+      font-family: var(--mono, monospace);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #00f5d4;
+      text-shadow: 0 0 20px rgba(0,245,212,.4);
+      text-align: center;
+      margin-bottom: 2rem;
+      letter-spacing: -.01em;
+    }
+    .auth-logo span { color: #f500d5; }
+
+    .auth-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      text-align: center;
+      margin-bottom: .4rem;
+    }
+    .auth-sub {
+      font-size: .875rem;
+      color: #9090b8;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    /* Wallet options */
+    .wallet-options {
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+      margin-bottom: 1.75rem;
+    }
+    .wallet-btn {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      width: 100%;
+      padding: .9rem 1.25rem;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: .9rem;
+      font-weight: 500;
+      color: #e8e8f4;
+      transition: border-color .2s, background .2s, transform .15s;
+      text-align: left;
+    }
+    .wallet-btn:hover {
+      border-color: rgba(0,245,212,.35);
+      background: rgba(0,245,212,.04);
+      transform: translateX(2px);
+    }
+    .wallet-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .wallet-icon.mm  { background: rgba(245,133,30,.15); }
+    .wallet-icon.wc  { background: rgba(61,117,255,.15); }
+    .wallet-icon.cb  { background: rgba(22,82,240,.15);  }
+    .wallet-icon.ph  { background: rgba(151,71,255,.15); }
+    .wallet-btn-text { flex: 1; }
+    .wallet-btn-name { font-weight: 600; display: block; }
+    .wallet-btn-type { font-size: .75rem; color: #9090b8; font-family: var(--mono, monospace); }
+    .wallet-btn-arrow { color: #5a5a80; font-size: .85rem; }
+
+    /* Divider */
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+    .auth-divider-line {
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,.06);
+    }
+    .auth-divider-text {
+      font-family: var(--mono, monospace);
+      font-size: .68rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #5a5a80;
+    }
+
+    /* Email form */
+    .auth-form { display: flex; flex-direction: column; gap: .75rem; }
+    .auth-label {
+      font-family: var(--mono, monospace);
+      font-size: .72rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #9090b8;
+      margin-bottom: .25rem;
+      display: block;
+    }
+    .auth-input {
+      width: 100%;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 8px;
+      padding: .85rem 1rem;
+      font-family: var(--mono, monospace);
+      font-size: .85rem;
+      color: #e8e8f4;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .auth-input::placeholder { color: #5a5a80; }
+    .auth-input:focus {
+      border-color: rgba(0,245,212,.5);
+      box-shadow: 0 0 0 3px rgba(0,245,212,.08);
+    }
+    .auth-submit {
+      width: 100%;
+      background: #00f5d4;
+      color: #05050f;
+      border: none;
+      border-radius: 8px;
+      padding: .9rem;
+      font-family: var(--mono, monospace);
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: box-shadow .2s, transform .15s;
+      margin-top: .25rem;
+    }
+    .auth-submit:hover {
+      box-shadow: 0 0 30px rgba(0,245,212,.3);
+      transform: translateY(-1px);
+    }
+
+    /* Footer links */
+    .auth-footer {
+      text-align: center;
+      margin-top: 1.75rem;
+      font-size: .82rem;
+      color: #9090b8;
+    }
+    .auth-footer a { color: #00f5d4; text-decoration: underline; }
+
+    .auth-terms {
+      text-align: center;
+      font-size: .72rem;
+      color: #5a5a80;
+      margin-top: 1.25rem;
+      line-height: 1.6;
+    }
+    .auth-terms a { color: #9090b8; }
+    .auth-terms a:hover { color: #00f5d4; }
+
+    /* Security badge */
+    .auth-security {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      margin-top: 1.5rem;
+      font-family: var(--mono, monospace);
+      font-size: .68rem;
+      letter-spacing: .08em;
+      color: #5a5a80;
+    }
+    .auth-security svg { width: 12px; color: #00f5d4; }
+  </style>
+</head>
+<body>
+
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+  <div class="auth-bg"></div>
+  <div class="auth-grid"></div>
+
+  <a href="index.html" class="auth-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Back to CIPHER
+  </a>
+
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-logo">CIPHER<span>_</span></div>
+      <h1 class="auth-title">Welcome back, Operator</h1>
+      <p class="auth-sub">Sign in to your CIPHER account</p>
+
+      <!-- Wallet sign-in options -->
+      <div class="wallet-options">
+        <button class="wallet-btn">
+          <div class="wallet-icon mm">🦊</div>
+          <div class="wallet-btn-text">
+            <span class="wallet-btn-name">MetaMask</span>
+            <span class="wallet-btn-type">Browser Wallet</span>
+          </div>
+          <span class="wallet-btn-arrow">→</span>
+        </button>
+        <button class="wallet-btn">
+          <div class="wallet-icon wc">🔗</div>
+          <div class="wallet-btn-text">
+            <span class="wallet-btn-name">WalletConnect</span>
+            <span class="wallet-btn-type">QR Code / Mobile</span>
+          </div>
+          <span class="wallet-btn-arrow">→</span>
+        </button>
+        <button class="wallet-btn">
+          <div class="wallet-icon cb">🔵</div>
+          <div class="wallet-btn-text">
+            <span class="wallet-btn-name">Coinbase Wallet</span>
+            <span class="wallet-btn-type">Browser Wallet</span>
+          </div>
+          <span class="wallet-btn-arrow">→</span>
+        </button>
+        <button class="wallet-btn">
+          <div class="wallet-icon ph">👻</div>
+          <div class="wallet-btn-text">
+            <span class="wallet-btn-name">Phantom</span>
+            <span class="wallet-btn-type">Solana / Multi-chain</span>
+          </div>
+          <span class="wallet-btn-arrow">→</span>
+        </button>
+      </div>
+
+      <!-- Divider -->
+      <div class="auth-divider">
+        <div class="auth-divider-line"></div>
+        <span class="auth-divider-text">or continue with email</span>
+        <div class="auth-divider-line"></div>
+      </div>
+
+      <!-- Email form -->
+      <form class="auth-form" onsubmit="return false">
+        <div>
+          <label class="auth-label">Email</label>
+          <input class="auth-input" type="email" placeholder="operator@node.cipher" />
+        </div>
+        <div>
+          <label class="auth-label">Passphrase</label>
+          <input class="auth-input" type="password" placeholder="••••••••••••" />
+        </div>
+        <button type="submit" class="auth-submit">Access_Protocol →</button>
+      </form>
+
+      <div class="auth-footer">
+        No account? <a href="connect-wallet.html">Connect wallet to create one</a>
+      </div>
+
+      <div class="auth-security">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        End-to-end encrypted · Zero-knowledge auth · No personal data stored
+      </div>
+    </div>
+
+    <div class="auth-terms">
+      By continuing you agree to our <a href="#">Terms of Protocol</a> and <a href="#">Privacy Policy</a>.<br>
+      CIPHER never stores your private keys or seed phrase.
+    </div>
+  </div>
+
+</body>
+</html>

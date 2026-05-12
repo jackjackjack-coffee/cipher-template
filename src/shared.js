@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger)
 /* ─── Lenis smooth scroll ─────────────────────────────────────────────────── */
 export function initLenis() {
   const lenis = new Lenis({
-    duration: 1.1,
+    duration: 0.85,
     easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
   })
   lenis.on('scroll', ScrollTrigger.update)
@@ -105,8 +105,9 @@ export function initNav() {
     <a href="features.html">Protocol</a>
     <a href="pricing.html">Access</a>
     <a href="blog.html">Dispatch</a>
-    <a href="#">Docs</a>
-    <a href="#" class="btn-primary" style="margin-top:2rem;letter-spacing:.08em">Connect_Wallet</a>
+    <a href="docs.html">Docs</a>
+    <a href="signin.html" style="color:var(--text-2)">Sign in</a>
+    <a href="connect-wallet.html" class="btn-primary" style="margin-top:2rem;letter-spacing:.08em">Connect_Wallet</a>
   `
   document.body.appendChild(mobileMenu)
 
@@ -125,10 +126,10 @@ export function initParticles(canvasId) {
 
   const CYAN  = [0, 245, 212]
   const PINK  = [245, 0, 213]
-  const DIST  = 140
-  const COUNT = 65
+  const DIST  = 130
+  const COUNT = 38
 
-  let W, H, particles = [], mouse = { x: -9999, y: -9999 }
+  let W, H, particles = [], mouse = { x: -9999, y: -9999 }, frame = 0
 
   const resize = () => {
     W = canvas.width  = canvas.offsetWidth
@@ -160,6 +161,9 @@ export function initParticles(canvasId) {
 
   let raf
   const draw = () => {
+    raf = requestAnimationFrame(draw)
+    // Throttle to ~30fps — skip odd frames
+    if (++frame % 2 !== 0) return
     ctx.clearRect(0, 0, W, H)
 
     for (const p of particles) {
@@ -189,11 +193,12 @@ export function initParticles(canvasId) {
       ctx.shadowBlur = 0
     }
 
-    // Connections
+    // Connections (bounding-box fast reject before sqrt)
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
         const dx = particles[i].x - particles[j].x
         const dy = particles[i].y - particles[j].y
+        if (Math.abs(dx) > DIST || Math.abs(dy) > DIST) continue
         const d  = Math.sqrt(dx * dx + dy * dy)
         if (d < DIST) {
           const a   = (1 - d / DIST) * 0.35
@@ -207,7 +212,6 @@ export function initParticles(canvasId) {
         }
       }
     }
-    raf = requestAnimationFrame(draw)
   }
   draw()
   return () => cancelAnimationFrame(raf)

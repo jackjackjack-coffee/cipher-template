@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connect Wallet — CIPHER Protocol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script type="module" src="/src/wallet.js"></script>
+  <style>
+    body { min-height: 100vh; }
+
+    /* Animated background */
+    .auth-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse at 30% 40%, rgba(0,245,212,.07) 0%, transparent 55%),
+        radial-gradient(ellipse at 70% 70%, rgba(245,0,213,.06) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .auth-grid {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(0,245,212,.04) 1px, transparent 1px),
+        linear-gradient(to right, rgba(0,245,212,.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    /* Pulsing ring behind main card */
+    .wallet-pulse {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .pulse-ring {
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,245,212,.06);
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: pulse-expand 4s ease-out infinite;
+    }
+    .pulse-ring:nth-child(2) { animation-delay: 1.3s; }
+    .pulse-ring:nth-child(3) { animation-delay: 2.6s; }
+    @keyframes pulse-expand {
+      0%   { transform: translate(-50%,-50%) scale(.6); opacity: .6; }
+      100% { transform: translate(-50%,-50%) scale(1.4); opacity: 0; }
+    }
+
+    .wallet-page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .auth-back {
+      position: fixed;
+      top: 1.5rem; left: 2rem;
+      font-family: var(--mono, monospace);
+      font-size: .75rem;
+      letter-spacing: .08em;
+      color: #9090b8;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      transition: color .2s;
+      z-index: 10;
+    }
+    .auth-back:hover { color: #00f5d4; }
+    .auth-back svg { width: 14px; }
+
+    /* Main card */
+    .wallet-card {
+      width: 100%;
+      max-width: 520px;
+      background: rgba(10,10,30,.9);
+      border: 1px solid rgba(0,245,212,.18);
+      border-radius: 16px;
+      padding: 2.5rem;
+      backdrop-filter: blur(24px);
+      box-shadow: 0 0 80px rgba(0,245,212,.06), 0 40px 80px rgba(0,0,0,.5);
+    }
+
+    /* Header */
+    .wallet-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .wallet-cipher-logo {
+      font-family: var(--mono, monospace);
+      font-size: 1rem;
+      font-weight: 700;
+      color: #00f5d4;
+      text-shadow: 0 0 20px rgba(0,245,212,.4);
+      margin-bottom: 1.5rem;
+    }
+    .wallet-cipher-logo span { color: #f500d5; }
+
+    /* Connection status indicator */
+    .wallet-status {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      font-family: var(--mono, monospace);
+      font-size: .72rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #9090b8;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 100px;
+      padding: .35rem .9rem;
+      margin-bottom: 1.25rem;
+    }
+    .wallet-status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #5a5a80;
+      animation: status-pulse 2s ease-in-out infinite;
+    }
+    .wallet-status-dot.ready { background: #b4ff39; animation: none; }
+    @keyframes status-pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    .wallet-title { font-size: 1.5rem; font-weight: 700; letter-spacing: -.02em; }
+    .wallet-sub { font-size: .875rem; color: #9090b8; margin-top: .35rem; }
+
+    /* Step indicator */
+    .wallet-steps {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin: 2rem 0;
+    }
+    .wallet-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .35rem;
+      flex: 1;
+      position: relative;
+    }
+    .wallet-step::after {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: calc(50% + 16px);
+      right: calc(-50% + 16px);
+      height: 1px;
+      background: rgba(255,255,255,.06);
+    }
+    .wallet-step:last-child::after { display: none; }
+    .wallet-step-num {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(255,255,255,.03);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono, monospace);
+      font-size: .72rem;
+      font-weight: 700;
+      color: #9090b8;
+      position: relative;
+      z-index: 1;
+    }
+    .wallet-step.active .wallet-step-num {
+      border-color: #00f5d4;
+      color: #00f5d4;
+      box-shadow: 0 0 12px rgba(0,245,212,.3);
+      background: rgba(0,245,212,.08);
+    }
+    .wallet-step.done .wallet-step-num {
+      border-color: #b4ff39;
+      color: #b4ff39;
+      background: rgba(180,255,57,.08);
+    }
+    .wallet-step-label {
+      font-family: var(--mono, monospace);
+      font-size: .62rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #5a5a80;
+      white-space: nowrap;
+    }
+    .wallet-step.active .wallet-step-label { color: #9090b8; }
+
+    /* Wallet grid */
+    .wallet-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: .75rem;
+      margin-bottom: 1.5rem;
+    }
+    .wallet-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .65rem;
+      padding: 1.25rem 1rem;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: border-color .2s, background .2s, transform .15s;
+      font-family: inherit;
+      color: #e8e8f4;
+    }
+    .wallet-option:hover {
+      border-color: rgba(0,245,212,.35);
+      background: rgba(0,245,212,.04);
+      transform: translateY(-2px);
+    }
+    .wallet-option.selected {
+      border-color: #00f5d4;
+      background: rgba(0,245,212,.08);
+      box-shadow: 0 0 20px rgba(0,245,212,.1);
+    }
+    .wallet-option-icon { font-size: 1.75rem; line-height: 1; }
+    .wallet-option-name { font-size: .875rem; font-weight: 600; }
+    .wallet-option-tag {
+      font-family: var(--mono, monospace);
+      font-size: .62rem;
+      letter-spacing: .08em;
+      color: #9090b8;
+    }
+    .wallet-option-badge {
+      font-family: var(--mono, monospace);
+      font-size: .6rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      background: rgba(0,245,212,.15);
+      color: #00f5d4;
+      border-radius: 100px;
+      padding: .15rem .5rem;
+    }
+
+    /* QR code placeholder */
+    .wallet-qr-section {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.5rem;
+      background: rgba(255,255,255,.02);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .wallet-qr-box {
+      width: 160px; height: 160px;
+      background: #fff;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Fake QR pattern */
+    .wallet-qr-pattern {
+      width: 100%; height: 100%;
+      background-image:
+        linear-gradient(#000 1px, transparent 1px),
+        linear-gradient(to right, #000 1px, transparent 1px);
+      background-size: 8px 8px;
+      opacity: .15;
+    }
+    .wallet-qr-center {
+      position: absolute;
+      width: 40px; height: 40px;
+      background: #fff;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+    .wallet-qr-label {
+      font-family: var(--mono, monospace);
+      font-size: .75rem;
+      color: #9090b8;
+    }
+
+    /* Connect button */
+    .wallet-connect-btn {
+      width: 100%;
+      background: #00f5d4;
+      color: #05050f;
+      border: none;
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: var(--mono, monospace);
+      font-size: .875rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: box-shadow .2s, transform .15s;
+      margin-bottom: 1rem;
+    }
+    .wallet-connect-btn:hover {
+      box-shadow: 0 0 30px rgba(0,245,212,.35);
+      transform: translateY(-1px);
+    }
+
+    /* What is a wallet */
+    .wallet-info {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      padding: 1rem 1.25rem;
+      background: rgba(255,255,255,.02);
+      border-radius: 8px;
+      margin-top: .5rem;
+    }
+    .wallet-info-icon { font-size: 1.1rem; flex-shrink: 0; }
+    .wallet-info-text { font-size: .8rem; color: #9090b8; line-height: 1.6; }
+    .wallet-info-text a { color: #00f5d4; }
+
+    /* Footer */
+    .wallet-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: .75rem;
+      color: #5a5a80;
+      font-family: var(--mono, monospace);
+      letter-spacing: .04em;
+    }
+    .wallet-footer a { color: #9090b8; text-decoration: underline; }
+
+    @media (max-width: 480px) {
+      .wallet-grid { grid-template-columns: 1fr; }
+      .wallet-card { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+  <div class="auth-bg"></div>
+  <div class="auth-grid"></div>
+  <div class="wallet-pulse">
+    <div class="pulse-ring"></div>
+    <div class="pulse-ring"></div>
+    <div class="pulse-ring"></div>
+  </div>
+
+  <a href="index.html" class="auth-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Back to CIPHER
+  </a>
+
+  <div class="wallet-page">
+    <div class="wallet-card">
+
+      <div class="wallet-header">
+        <div class="wallet-cipher-logo">CIPHER<span>_</span> Protocol</div>
+        <div class="wallet-status">
+          <div class="wallet-status-dot" id="status-dot"></div>
+          <span id="status-text">Awaiting connection</span>
+        </div>
+        <h1 class="wallet-title">Connect Your Wallet</h1>
+        <p class="wallet-sub">Choose your wallet to access the CIPHER network</p>
+      </div>
+
+      <!-- Steps -->
+      <div class="wallet-steps">
+        <div class="wallet-step active">
+          <div class="wallet-step-num">1</div>
+          <div class="wallet-step-label">Choose</div>
+        </div>
+        <div class="wallet-step">
+          <div class="wallet-step-num">2</div>
+          <div class="wallet-step-label">Approve</div>
+        </div>
+        <div class="wallet-step">
+          <div class="wallet-step-num">3</div>
+          <div class="wallet-step-label">Connected</div>
+        </div>
+      </div>
+
+      <!-- Wallet grid -->
+      <div class="wallet-grid" id="wallet-grid">
+        <button class="wallet-option" data-wallet="metamask" onclick="selectWallet(this)">
+          <div class="wallet-option-icon">🦊</div>
+          <div class="wallet-option-name">MetaMask</div>
+          <div class="wallet-option-tag">Browser</div>
+        </button>
+        <button class="wallet-option" data-wallet="walletconnect" onclick="selectWallet(this)">
+          <div class="wallet-option-icon">🔗</div>
+          <div class="wallet-option-name">WalletConnect</div>
+          <div class="wallet-option-tag">QR Code</div>
+        </button>
+        <button class="wallet-option" data-wallet="coinbase" onclick="selectWallet(this)">
+          <div class="wallet-option-icon">🔵</div>
+          <div class="wallet-option-name">Coinbase</div>
+          <div class="wallet-option-tag">Browser</div>
+        </button>
+        <button class="wallet-option" data-wallet="phantom" onclick="selectWallet(this)">
+          <div class="wallet-option-icon">👻</div>
+          <div class="wallet-option-name">Phantom</div>
+          <div class="wallet-option-tag">Multi-chain</div>
+          <div class="wallet-option-badge">Solana</div>
+        </button>
+        <button class="wallet-option" data-wallet="ledger" onclick="selectWallet(this)">
+          <div class="wallet-option-icon">🔒</div>
+          <div class="wallet-option-name">Ledger</div>
+          <div class="wallet-option-tag">Hardware</div>
+        </button>
+        <button class="wallet-option" data-wallet="trezor" onclick="selectWallet(this)">
+          <div class="wallet-option-icon">🛡️</div>
+          <div class="wallet-option-name">Trezor</div>
+          <div class="wallet-option-tag">Hardware</div>
+        </button>
+      </div>
+
+      <!-- QR section (shown for WalletConnect) -->
+      <div class="wallet-qr-section" id="qr-section">
+        <p style="font-family:var(--mono,monospace);font-size:.75rem;color:#9090b8">Scan with your mobile wallet</p>
+        <div class="wallet-qr-box">
+          <div class="wallet-qr-pattern"></div>
+          <div class="wallet-qr-center">🔗</div>
+        </div>
+        <div class="wallet-qr-label">Waiting for scan… <span id="qr-timer" style="color:#00f5d4">4:59</span></div>
+      </div>
+
+      <!-- Connect button -->
+      <button class="wallet-connect-btn" id="connect-btn" onclick="connectWallet()">
+        Select a wallet to continue
+      </button>
+
+      <!-- Info box -->
+      <div class="wallet-info">
+        <div class="wallet-info-icon">🔐</div>
+        <div class="wallet-info-text">
+          CIPHER uses zero-knowledge authentication. Your private keys never leave your device. We only request a signature to verify ownership — no transactions are initiated.
+          <br><a href="docs.html">Learn about our security model →</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="wallet-footer">
+      Already have an account? <a href="signin.html">Sign in instead</a>
+    </div>
+  </div>
+
+  <script>
+    let selectedWallet = null
+
+    function selectWallet(el) {
+      document.querySelectorAll('.wallet-option').forEach(b => b.classList.remove('selected'))
+      el.classList.add('selected')
+      selectedWallet = el.dataset.wallet
+
+      const btn = document.getElementById('connect-btn')
+      const qr  = document.getElementById('qr-section')
+      const walletName = el.querySelector('.wallet-option-name').textContent
+
+      btn.textContent = 'Connect with ' + walletName + ' →'
+
+      if (selectedWallet === 'walletconnect') {
+        qr.style.display = 'flex'
+        startQrTimer()
+      } else {
+        qr.style.display = 'none'
+      }
+    }
+
+    function connectWallet() {
+      if (!selectedWallet) return
+      const btn  = document.getElementById('connect-btn')
+      const dot  = document.getElementById('status-dot')
+      const text = document.getElementById('status-text')
+
+      btn.textContent = 'Connecting…'
+      btn.style.background = 'rgba(0,245,212,.2)'
+      btn.style.color = '#00f5d4'
+      btn.style.border = '1px solid rgba(0,245,212,.4)'
+      text.textContent = 'Connecting…'
+
+      // Simulate connect flow
+      setTimeout(() => {
+        btn.textContent = 'Approving signature…'
+      }, 1200)
+
+      setTimeout(() => {
+        dot.classList.add('ready')
+        text.textContent = 'Connected!'
+        btn.textContent  = '✓  Connected — Redirecting…'
+        btn.style.background = '#b4ff39'
+        btn.style.color = '#05050f'
+
+        // Mark steps
+        const steps = document.querySelectorAll('.wallet-step')
+        steps[0].classList.remove('active'); steps[0].classList.add('done')
+        steps[1].classList.remove('active'); steps[1].classList.add('done')
+        steps[2].classList.add('active')
+
+        setTimeout(() => {
+          window.location.href = 'index.html'
+        }, 1500)
+      }, 2800)
+    }
+
+    let qrInterval
+    function startQrTimer() {
+      clearInterval(qrInterval)
+      let secs = 299
+      const el = document.getElementById('qr-timer')
+      qrInterval = setInterval(() => {
+        const m = Math.floor(secs / 60)
+        const s = secs % 60
+        el.textContent = m + ':' + String(s).padStart(2, '0')
+        if (--secs < 0) clearInterval(qrInterval)
+      }, 1000)
+    }
+  </script>
+
+</body>
+</html>

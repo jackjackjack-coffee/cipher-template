@@ -99,16 +99,12 @@ body::before {
   pointer-events: none;
   background: repeating-linear-gradient(
     0deg,
-    rgba(0, 0, 0, 0.025) 0px,
-    rgba(0, 0, 0, 0.025) 1px,
+    rgba(0, 0, 0, 0.022) 0px,
+    rgba(0, 0, 0, 0.022) 1px,
     transparent 1px,
-    transparent 3px
+    transparent 4px
   );
-  animation: scanlines 8s linear infinite;
-}
-@keyframes scanlines {
-  0%   { background-position: 0 0; }
-  100% { background-position: 0 120px; }
+  /* Static scanlines — no animation = no per-frame repaint */
 }
 
 /* ─── Cursor ─────────────────────────────────────────────────────────────── */

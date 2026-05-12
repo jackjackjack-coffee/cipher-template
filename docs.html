@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Docs — CIPHER Protocol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script type="module" src="/src/docs.js"></script>
+  <style>
+    /* ─── Docs layout ──────────────────────────────────────────────────────── */
+    .docs-hero {
+      padding: 9rem var(--px) 4rem;
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .docs-eyebrow {
+      font-family: var(--mono);
+      font-size: .72rem;
+      letter-spacing: .2em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .docs-heading {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 700;
+      letter-spacing: -.04em;
+      line-height: 1.05;
+      margin-bottom: 1.25rem;
+    }
+    .docs-sub {
+      color: var(--fg-muted, #9090b8);
+      font-size: 1.05rem;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Search bar */
+    .docs-search-wrap {
+      position: relative;
+      max-width: 480px;
+      margin: 0 auto 4rem;
+    }
+    .docs-search {
+      width: 100%;
+      background: var(--surface, #0a0a1e);
+      border: 1px solid rgba(0,245,212,.25);
+      border-radius: 8px;
+      padding: 1rem 1rem 1rem 3rem;
+      font-family: var(--mono, monospace);
+      font-size: .9rem;
+      color: #e8e8f4;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .docs-search::placeholder { color: #5a5a80; }
+    .docs-search:focus {
+      border-color: var(--cyan, #00f5d4);
+      box-shadow: 0 0 20px rgba(0,245,212,.15);
+    }
+    .docs-search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #5a5a80;
+      pointer-events: none;
+    }
+    .docs-search-kbd {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--mono, monospace);
+      font-size: .65rem;
+      color: #5a5a80;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 4px;
+      padding: .15rem .45rem;
+    }
+
+    /* Quick links */
+    .docs-quick {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 4rem;
+    }
+    .docs-quick-link {
+      font-family: var(--mono, monospace);
+      font-size: .75rem;
+      letter-spacing: .1em;
+      color: #9090b8;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      transition: color .2s;
+    }
+    .docs-quick-link:hover { color: var(--cyan, #00f5d4); }
+    .docs-quick-link svg { width: 13px; }
+
+    /* Category grid */
+    .docs-grid-section {
+      padding: 0 var(--px, 2rem) 5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .docs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    .docs-card {
+      border: 1px solid rgba(0,245,212,.1);
+      border-radius: 12px;
+      background: #0a0a1e;
+      padding: 2rem;
+      cursor: pointer;
+      transition: border-color .3s, transform .3s, box-shadow .3s;
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .docs-card:hover {
+      border-color: rgba(0,245,212,.35);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 40px rgba(0,245,212,.06);
+    }
+    .docs-card-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: .25rem;
+    }
+    .docs-card-icon.cyan   { background: rgba(0,245,212,.1);  }
+    .docs-card-icon.pink   { background: rgba(245,0,213,.1);  }
+    .docs-card-icon.acid   { background: rgba(180,255,57,.1); }
+    .docs-card-icon.purple { background: rgba(112,0,255,.15); }
+    .docs-card-icon.orange { background: rgba(255,140,0,.1);  }
+    .docs-card-icon.blue   { background: rgba(0,140,255,.1);  }
+
+    .docs-card-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: -.01em;
+    }
+    .docs-card-desc {
+      font-size: .875rem;
+      color: #9090b8;
+      line-height: 1.6;
+      flex: 1;
+    }
+    .docs-card-links {
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+      margin-top: .5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,.05);
+    }
+    .docs-card-links a {
+      font-family: var(--mono, monospace);
+      font-size: .75rem;
+      color: #9090b8;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      transition: color .2s;
+    }
+    .docs-card-links a:hover { color: var(--cyan, #00f5d4); }
+    .docs-card-links a::before { content: '→'; font-size: .65rem; opacity: .6; }
+
+    /* Terminal quick start */
+    .docs-quickstart {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--px, 2rem) 5rem;
+    }
+    .docs-section-label {
+      font-family: var(--mono, monospace);
+      font-size: .72rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #9090b8;
+      margin-bottom: 1.5rem;
+    }
+    .docs-qs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .docs-terminal {
+      background: #060610;
+      border: 1px solid rgba(0,245,212,.12);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .docs-terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .75rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      background: rgba(255,255,255,.02);
+    }
+    .docs-terminal-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    .docs-terminal-dot:nth-child(1) { background: #ff5f56; }
+    .docs-terminal-dot:nth-child(2) { background: #ffbd2e; }
+    .docs-terminal-dot:nth-child(3) { background: #27c93f; }
+    .docs-terminal-title {
+      font-family: var(--mono, monospace);
+      font-size: .7rem;
+      color: #5a5a80;
+      margin-left: .5rem;
+    }
+    .docs-terminal-body {
+      padding: 1.5rem;
+      font-family: var(--mono, monospace);
+      font-size: .8rem;
+      line-height: 1.9;
+      color: #9090b8;
+    }
+    .t-c  { color: #00f5d4; }
+    .t-p  { color: #f500d5; }
+    .t-a  { color: #b4ff39; }
+    .t-d  { opacity: .4; }
+    .t-w  { color: #e8e8f4; }
+
+    /* Popular articles */
+    .docs-popular {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--px, 2rem) 6rem;
+    }
+    .docs-popular-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: .75rem;
+    }
+    .docs-popular-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      border: 1px solid rgba(255,255,255,.05);
+      border-radius: 8px;
+      background: #0a0a1e;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color .2s, background .2s;
+    }
+    .docs-popular-item:hover {
+      border-color: rgba(0,245,212,.25);
+      background: rgba(0,245,212,.03);
+    }
+    .docs-popular-num {
+      font-family: var(--mono, monospace);
+      font-size: .65rem;
+      color: #5a5a80;
+      min-width: 1.5rem;
+    }
+    .docs-popular-title {
+      font-size: .9rem;
+      font-weight: 500;
+      flex: 1;
+    }
+    .docs-popular-tag {
+      font-family: var(--mono, monospace);
+      font-size: .62rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--cyan, #00f5d4);
+      padding: .2rem .5rem;
+      border: 1px solid rgba(0,245,212,.25);
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    /* Version banner */
+    .docs-version-banner {
+      background: rgba(0,245,212,.05);
+      border: 1px solid rgba(0,245,212,.15);
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      max-width: 1100px;
+      margin: 0 auto 3rem;
+      padding-left: var(--px, 2rem);
+      padding-right: var(--px, 2rem);
+    }
+    .docs-version-badge {
+      font-family: var(--mono, monospace);
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      background: var(--cyan, #00f5d4);
+      color: #05050f;
+      padding: .2rem .6rem;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+    .docs-version-text {
+      font-size: .875rem;
+      color: #9090b8;
+      flex: 1;
+    }
+    .docs-version-text a { color: var(--cyan, #00f5d4); text-decoration: underline; }
+    .docs-version-close {
+      color: #5a5a80;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      line-height: 1;
+      padding: .25rem;
+    }
+    .docs-version-close:hover { color: #e8e8f4; }
+
+    @media (max-width: 900px) {
+      .docs-grid { grid-template-columns: repeat(2, 1fr); }
+      .docs-qs-grid { grid-template-columns: 1fr; }
+      .docs-popular-list { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 580px) {
+      .docs-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">CIPHER<span>_</span></a>
+      <nav class="nav-links">
+        <a href="features.html">Protocol</a>
+        <a href="pricing.html">Access</a>
+        <a href="blog.html">Dispatch</a>
+        <a href="docs.html">Docs</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="signin.html" class="nav-ghost">Sign in</a>
+        <a href="connect-wallet.html" class="nav-cta magnetic">Connect_Wallet</a>
+      </div>
+      <button class="nav-hamburger" aria-label="Open menu"><span></span><span></span></button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <div class="docs-hero">
+    <p class="docs-eyebrow">// documentation — v2.4.1</p>
+    <h1 class="docs-heading docs-title">CIPHER<br><span style="color:var(--cyan)">PROTOCOL</span><br>DOCS</h1>
+    <p class="docs-sub">Everything you need to build on the zero-trust, post-quantum network.</p>
+
+    <!-- Search -->
+    <div class="docs-search-wrap">
+      <svg class="docs-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input class="docs-search" type="text" placeholder="Search docs..." />
+      <span class="docs-search-kbd">⌘K</span>
+    </div>
+
+    <!-- Quick links -->
+    <div class="docs-quick">
+      <a href="#quickstart" class="docs-quick-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        Quick Start
+      </a>
+      <a href="#" class="docs-quick-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        API Reference
+      </a>
+      <a href="#" class="docs-quick-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        SDK Examples
+      </a>
+      <a href="#" class="docs-quick-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Security
+      </a>
+    </div>
+  </div>
+
+  <!-- Version banner -->
+  <div class="docs-version-banner" id="version-banner">
+    <span class="docs-version-badge">NEW</span>
+    <span class="docs-version-text">CIPHER SDK v2.4 released — homomorphic encryption layer + 40% throughput improvement. <a href="blog.html">Read the changelog →</a></span>
+    <button class="docs-version-close" onclick="document.getElementById('version-banner').style.display='none'">✕</button>
+  </div>
+
+  <!-- Category grid -->
+  <div class="docs-grid-section">
+    <div class="docs-grid">
+
+      <a href="#" class="docs-card" data-reveal>
+        <div class="docs-card-icon cyan">⚡</div>
+        <div class="docs-card-title">Getting Started</div>
+        <div class="docs-card-desc">Install the SDK, connect to the network, and send your first encrypted packet in under 5 minutes.</div>
+        <div class="docs-card-links">
+          <a href="#">Installation</a>
+          <a href="#">Your first connection</a>
+          <a href="#">Authentication</a>
+          <a href="#">Environment setup</a>
+        </div>
+      </a>
+
+      <a href="#" class="docs-card" data-reveal>
+        <div class="docs-card-icon pink">🔐</div>
+        <div class="docs-card-title">Cryptography</div>
+        <div class="docs-card-desc">Post-quantum key exchange, ZK proof generation, digital signatures, and key management APIs.</div>
+        <div class="docs-card-links">
+          <a href="#">CRYSTALS-Kyber key exchange</a>
+          <a href="#">ZK-SNARK proof engine</a>
+          <a href="#">Dilithium signatures</a>
+          <a href="#">Key rotation</a>
+        </div>
+      </a>
+
+      <a href="#" class="docs-card" data-reveal>
+        <div class="docs-card-icon acid">🌐</div>
+        <div class="docs-card-title">Network Protocol</div>
+        <div class="docs-card-desc">Decentralized mesh routing, node discovery, DHT internals, and packet-level configuration.</div>
+        <div class="docs-card-links">
+          <a href="#">Node architecture</a>
+          <a href="#">Routing configuration</a>
+          <a href="#">DHT protocol</a>
+          <a href="#">Latency optimization</a>
+        </div>
+      </a>
+
+      <a href="#" class="docs-card" data-reveal>
+        <div class="docs-card-icon purple">📦</div>
+        <div class="docs-card-title">SDK Reference</div>
+        <div class="docs-card-desc">Full API reference for TypeScript, Rust, Go, Python, and Java SDKs with type definitions and examples.</div>
+        <div class="docs-card-links">
+          <a href="#">TypeScript / Node.js</a>
+          <a href="#">Rust crate</a>
+          <a href="#">Go module</a>
+          <a href="#">Python package</a>
+        </div>
+      </a>
+
+      <a href="#" class="docs-card" data-reveal>
+        <div class="docs-card-icon orange">🛡️</div>
+        <div class="docs-card-title">Security</div>
+        <div class="docs-card-desc">Security model, threat landscape, audit reports, responsible disclosure, and hardening guides.</div>
+        <div class="docs-card-links">
+          <a href="#">Threat model</a>
+          <a href="#">Audit reports</a>
+          <a href="#">Responsible disclosure</a>
+          <a href="#">Hardening checklist</a>
+        </div>
+      </a>
+
+      <a href="#" class="docs-card" data-reveal>
+        <div class="docs-card-icon blue">📈</div>
+        <div class="docs-card-title">Infrastructure</div>
+        <div class="docs-card-desc">Self-hosting, Kubernetes deployment, monitoring with Prometheus, SLA configuration, and scaling.</div>
+        <div class="docs-card-links">
+          <a href="#">Self-hosting guide</a>
+          <a href="#">Kubernetes operator</a>
+          <a href="#">Monitoring &amp; alerts</a>
+          <a href="#">Scaling playbook</a>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- Quick start terminals -->
+  <div class="docs-quickstart" id="quickstart">
+    <p class="docs-section-label">// quick start</p>
+    <div class="docs-qs-grid">
+
+      <div class="docs-terminal">
+        <div class="docs-terminal-bar">
+          <div class="docs-terminal-dot"></div>
+          <div class="docs-terminal-dot"></div>
+          <div class="docs-terminal-dot"></div>
+          <span class="docs-terminal-title">install + connect</span>
+        </div>
+        <div class="docs-terminal-body">
+          <div><span class="t-d"># Install the SDK</span></div>
+          <div><span class="t-c">$</span> npm install <span class="t-a">@cipher/sdk</span></div>
+          <div>&nbsp;</div>
+          <div><span class="t-d"># Init your first connection</span></div>
+          <div><span class="t-c">$</span> npx cipher init</div>
+          <div><span class="t-d">  → Detecting network topology...</span></div>
+          <div><span class="t-d">  → Generating Kyber-768 keypair...</span></div>
+          <div><span class="t-a">  ✓ Connected to 12.4M node mesh</span></div>
+          <div><span class="t-a">  ✓ Quantum-safe session established</span></div>
+          <div>&nbsp;</div>
+          <div><span class="t-c">$</span> cipher status</div>
+          <div><span class="t-a">  NODE</span>  <span class="t-w">0x4a2f...d91c</span>  ONLINE</div>
+          <div><span class="t-a">  PING</span>  <span class="t-w">4ms</span></div>
+          <div><span class="t-a">  ALGO</span>  <span class="t-w">Kyber-768 + Dilithium3</span></div>
+        </div>
+      </div>
+
+      <div class="docs-terminal">
+        <div class="docs-terminal-bar">
+          <div class="docs-terminal-dot"></div>
+          <div class="docs-terminal-dot"></div>
+          <div class="docs-terminal-dot"></div>
+          <span class="docs-terminal-title">TypeScript — first packet</span>
+        </div>
+        <div class="docs-terminal-body">
+          <div><span class="t-p">import</span> { <span class="t-c">CipherProtocol</span> } <span class="t-p">from</span> <span class="t-a">'@cipher/sdk'</span></div>
+          <div>&nbsp;</div>
+          <div><span class="t-p">const</span> cipher = <span class="t-p">new</span> <span class="t-c">CipherProtocol</span>({</div>
+          <div>  algorithm: <span class="t-a">'KYBER_768'</span>,</div>
+          <div>  network:   <span class="t-a">'mainnet'</span>,</div>
+          <div>})</div>
+          <div>&nbsp;</div>
+          <div><span class="t-d">// Connect + send encrypted data</span></div>
+          <div><span class="t-p">const</span> session = <span class="t-p">await</span> cipher.<span class="t-c">connect</span>()</div>
+          <div><span class="t-p">await</span> session.<span class="t-c">send</span>({</div>
+          <div>  to:   <span class="t-a">'node://0xb7f3'</span>,</div>
+          <div>  data: <span class="t-a">'Hello, ungovernable!'</span>,</div>
+          <div>})</div>
+          <div><span class="t-d">// → 94,200 TPS, zero-trust guaranteed</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Popular articles -->
+  <div class="docs-popular">
+    <p class="docs-section-label">// most visited</p>
+    <div class="docs-popular-list">
+      <a href="#" class="docs-popular-item">
+        <span class="docs-popular-num">01</span>
+        <span class="docs-popular-title">Installing and configuring the CIPHER SDK</span>
+        <span class="docs-popular-tag">Guide</span>
+      </a>
+      <a href="#" class="docs-popular-item">
+        <span class="docs-popular-num">02</span>
+        <span class="docs-popular-title">CRYSTALS-Kyber key encapsulation reference</span>
+        <span class="docs-popular-tag">API</span>
+      </a>
+      <a href="#" class="docs-popular-item">
+        <span class="docs-popular-num">03</span>
+        <span class="docs-popular-title">Generating and verifying ZK proofs</span>
+        <span class="docs-popular-tag">Guide</span>
+      </a>
+      <a href="#" class="docs-popular-item">
+        <span class="docs-popular-num">04</span>
+        <span class="docs-popular-title">Self-hosting a CIPHER node with Docker</span>
+        <span class="docs-popular-tag">Infra</span>
+      </a>
+      <a href="#" class="docs-popular-item">
+        <span class="docs-popular-num">05</span>
+        <span class="docs-popular-title">Migrating from RSA to post-quantum keys</span>
+        <span class="docs-popular-tag">Security</span>
+      </a>
+      <a href="#" class="docs-popular-item">
+        <span class="docs-popular-num">06</span>
+        <span class="docs-popular-title">Rate limits, quotas, and error codes</span>
+        <span class="docs-popular-tag">Reference</span>
+      </a>
+      <a href="#" class="docs-popular-item">
+        <span class="docs-popular-num">07</span>
+        <span class="docs-popular-title">Rust SDK: cipher-rs crate walkthrough</span>
+        <span class="docs-popular-tag">SDK</span>
+      </a>
+      <a href="#" class="docs-popular-item">
+        <span class="docs-popular-num">08</span>
+        <span class="docs-popular-title">Kubernetes operator deployment guide</span>
+        <span class="docs-popular-tag">Infra</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="nav-logo">CIPHER<span>_</span></span>
+        <p>Zero-trust infrastructure<br>for the ungovernable.</p>
+      </div>
+      <div class="footer-col">
+        <span class="footer-label">DOCS</span>
+        <a href="#">Getting Started</a>
+        <a href="#">API Reference</a>
+        <a href="#">SDK</a>
+        <a href="#">Examples</a>
+      </div>
+      <div class="footer-col">
+        <span class="footer-label">PROTOCOL</span>
+        <a href="features.html">Features</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="blog.html">Dispatch</a>
+      </div>
+      <div class="footer-col">
+        <span class="footer-label">OPERATORS</span>
+        <a href="#">GitHub</a>
+        <a href="#">Discord</a>
+        <a href="#">Security</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 CIPHER Protocol. All rights reserved.</span>
+      <span>Built for the ungovernable.</span>
+    </div>
+  </footer>
+
+</body>
+</html>
