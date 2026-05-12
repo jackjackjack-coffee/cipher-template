@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocol — CIPHER</title>
+  <meta name="description" content="The architecture behind CIPHER's zero-trust, post-quantum secure network." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <script type="module" crossorigin src="/assets/features-BMGy9HUE.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/shared-BbviWq5C.js">
+  <link rel="stylesheet" crossorigin href="/assets/shared-rE5CAoET.css">
+</head>
+<body>
+
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">CIPHER<span>_</span></a>
+    <nav class="nav-links">
+      <a href="features.html">Protocol</a>
+      <a href="pricing.html">Access</a>
+      <a href="blog.html">Dispatch</a>
+      <a href="#">Docs</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="#" class="nav-ghost">Sign in</a>
+      <a href="#" class="nav-cta magnetic">Connect_Wallet</a>
+    </div>
+    <button class="nav-hamburger" aria-label="Open menu"><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- Hero -->
+<div class="page-hero feat-hero">
+  <div class="feat-hero-bg" aria-hidden="true">
+    <div class="feat-orb feat-orb--1"></div>
+    <div class="feat-orb feat-orb--2"></div>
+  </div>
+  <p class="section-label page-hero-eyebrow">Protocol Architecture</p>
+  <h1 class="page-hero-title feat-heading">Every layer.<br><span class="neon-text">Hardened.</span></h1>
+  <p class="page-hero-sub">From cryptographic key exchange to global mesh routing — the full stack, explained.</p>
+  <div class="page-hero-cta">
+    <a href="#" class="btn-primary magnetic">Read the whitepaper</a>
+    <a href="#" class="btn-ghost">View source →</a>
+  </div>
+</div>
+
+<!-- Feature rows -->
+<section class="feat-rows">
+  <div class="container">
+
+    <!-- Row 1: Post-Quantum Encryption -->
+    <div class="feat-row" data-feat>
+      <div class="feat-copy">
+        <div class="feat-num font-mono">01</div>
+        <span class="badge cyber">Encryption</span>
+        <h2 class="feat-title">Post-Quantum<br>Key Exchange</h2>
+        <p class="feat-body">CRYSTALS-Kyber lattice-based key encapsulation. When quantum computers break RSA, CIPHER will already be immune. Your data stays private — now, and in the future.</p>
+        <ul class="feat-list">
+          <li><span class="feat-check">✓</span> CRYSTALS-Kyber 1024-bit security</li>
+          <li><span class="feat-check">✓</span> CRYSTALS-Dilithium signatures</li>
+          <li><span class="feat-check">✓</span> Perfect forward secrecy</li>
+          <li><span class="feat-check">✓</span> Hardware-backed key storage</li>
+        </ul>
+        <a href="#" class="btn-outline" style="margin-top:1.5rem">Encryption docs →</a>
+      </div>
+      <div class="feat-visual">
+        <div class="terminal">
+          <div class="terminal-bar">
+            <div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div>
+            <span class="terminal-label">kyber — key_exchange</span>
+          </div>
+          <div class="terminal-body">
+            <div><span class="t-prompt">❯</span> <span class="t-cmd">cipher.crypto.kyber.generateKeypair()</span></div>
+            <div class="t-out">  Algorithm: <span class="t-ok">CRYSTALS-Kyber-1024</span></div>
+            <div class="t-out">  Security level: <span class="t-ok">NIST Level 5</span></div>
+            <div class="t-out">  Public key: <span class="t-num">0xf3a2...9e1b</span> (1568 bytes)</div>
+            <div class="t-out">  Private key: encrypted in vault</div>
+            <div>&nbsp;</div>
+            <div><span class="t-prompt">❯</span> <span class="t-cmd">cipher.crypto.kyber.encapsulate(recipientPubKey)</span></div>
+            <div class="t-out">  Ciphertext: <span class="t-num">0x8b4d...2f7c</span></div>
+            <div class="t-out">  Shared secret: <span class="t-ok">established (256-bit)</span></div>
+            <div class="t-ok">  ✓ Quantum-resistant handshake complete</div>
+            <div><span class="t-prompt">❯</span> <span class="t-cursor"></span></div>
+          </div>
+        </div>
+        <div class="conf-bar-wrap">
+          <div class="conf-label">Quantum resistance score</div>
+          <div class="conf-bar" style="--w:97%"><span>97 / 100</span></div>
+          <div class="conf-label">Classical resistance score</div>
+          <div class="conf-bar" style="--w:100%"><span>100 / 100</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2: Zero-Knowledge Proofs -->
+    <div class="feat-row feat-row--reverse" data-feat>
+      <div class="feat-copy">
+        <div class="feat-num font-mono">02</div>
+        <span class="badge pink">Privacy</span>
+        <h2 class="feat-title">Zero-Knowledge<br>Proof Engine</h2>
+        <p class="feat-body">Prove statements are true without revealing underlying data. Verify transactions, identities, and credentials — all without trust.</p>
+        <ul class="feat-list">
+          <li><span class="feat-check" style="color:var(--pink)">✓</span> zk-SNARKs (Groth16 + PLONK)</li>
+          <li><span class="feat-check" style="color:var(--pink)">✓</span> Recursive proof composition</li>
+          <li><span class="feat-check" style="color:var(--pink)">✓</span> 50ms proof generation</li>
+          <li><span class="feat-check" style="color:var(--pink)">✓</span> On-chain verification</li>
+        </ul>
+        <a href="#" class="btn-outline" style="margin-top:1.5rem;color:var(--pink);border-color:var(--pink)">ZKP docs →</a>
+      </div>
+      <div class="feat-visual">
+        <div class="zkp-demo holo-card">
+          <div class="zkp-demo-header">
+            <span class="badge pink">ZK Proof Verification</span>
+            <span class="zkp-timer font-mono">48ms</span>
+          </div>
+          <div class="zkp-flow">
+            <div class="zkp-box zkp-prover">
+              <div class="zkp-box-label">PROVER</div>
+              <div class="zkp-box-data">
+                <div class="zkp-data-row"><span class="t-out">balance:</span> <span class="zkp-hidden">████████</span></div>
+                <div class="zkp-data-row"><span class="t-out">address:</span> <span class="zkp-hidden">████████</span></div>
+                <div class="zkp-data-row"><span class="t-out">tx_hash:</span> <span class="zkp-hidden">████████</span></div>
+              </div>
+            </div>
+            <div class="zkp-arrow-big">
+              <div class="zkp-proof-label font-mono">π (proof)</div>
+              <div class="zkp-arrow-line"></div>
+            </div>
+            <div class="zkp-box zkp-verifier">
+              <div class="zkp-box-label">VERIFIER</div>
+              <div class="zkp-verify-result">
+                <div class="zkp-check">✓</div>
+                <div>Balance ≥ 100 CIPHER<br><span class="t-ok">Verified. No data revealed.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 3: Mesh Network -->
+    <div class="feat-row" data-feat>
+      <div class="feat-copy">
+        <div class="feat-num font-mono">03</div>
+        <span class="badge purple">Network</span>
+        <h2 class="feat-title">Decentralized<br>Mesh Routing</h2>
+        <p class="feat-body">47 edge nodes across 6 continents. Traffic routes through the shortest, most secure path — automatically, without a central coordinator.</p>
+        <ul class="feat-list">
+          <li><span class="feat-check" style="color:#a855f7">✓</span> Byzantine fault tolerant (BFT)</li>
+          <li><span class="feat-check" style="color:#a855f7">✓</span> Sub-10ms global latency</li>
+          <li><span class="feat-check" style="color:#a855f7">✓</span> 99.997% uptime SLA</li>
+          <li><span class="feat-check" style="color:#a855f7">✓</span> Automatic failover</li>
+        </ul>
+        <a href="#" class="btn-outline" style="margin-top:1.5rem;color:#a855f7;border-color:#a855f7">Network docs →</a>
+      </div>
+      <div class="feat-visual">
+        <div class="globe-card holo-card">
+          <div class="globe-header font-mono">
+            <span class="t-ok">● LIVE</span> <span class="t-out">47 nodes active</span>
+          </div>
+          <div class="globe-visual" aria-hidden="true">
+            <div class="globe-ring globe-ring--1"></div>
+            <div class="globe-ring globe-ring--2"></div>
+            <div class="globe-ring globe-ring--3"></div>
+            <div class="globe-dot" style="--gx:20%;--gy:30%"></div>
+            <div class="globe-dot globe-dot--pink" style="--gx:70%;--gy:20%"></div>
+            <div class="globe-dot" style="--gx:55%;--gy:65%"></div>
+            <div class="globe-dot globe-dot--pink" style="--gx:15%;--gy:70%"></div>
+            <div class="globe-dot" style="--gx:80%;--gy:55%"></div>
+            <div class="globe-dot globe-dot--purple" style="--gx:42%;--gy:40%"></div>
+          </div>
+          <div class="globe-stats">
+            <div class="globe-stat"><span class="neon-text font-mono">8.3ms</span><span>Global P50</span></div>
+            <div class="globe-stat"><span class="pink-text font-mono">3.1ms</span><span>US East</span></div>
+            <div class="globe-stat"><span style="color:#a855f7;text-shadow:0 0 12px rgba(168,85,247,.4)" class="font-mono">11.2ms</span><span>APAC</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 4: SDK -->
+    <div class="feat-row feat-row--reverse" data-feat>
+      <div class="feat-copy">
+        <div class="feat-num font-mono">04</div>
+        <span class="badge cyber">Developer</span>
+        <h2 class="feat-title">SDK for<br>Any Language</h2>
+        <p class="feat-body">One API. Five official SDKs. Full TypeScript types, auto-generated docs, and a CLI that actually makes sense. Ship your protocol in an afternoon.</p>
+        <ul class="feat-list">
+          <li><span class="feat-check">✓</span> TypeScript / JavaScript</li>
+          <li><span class="feat-check">✓</span> Rust (no_std compatible)</li>
+          <li><span class="feat-check">✓</span> Python, Go, Solidity</li>
+          <li><span class="feat-check">✓</span> Full OpenAPI spec</li>
+        </ul>
+        <a href="#" class="btn-outline" style="margin-top:1.5rem">SDK reference →</a>
+      </div>
+      <div class="feat-visual">
+        <div class="terminal">
+          <div class="terminal-bar">
+            <div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div>
+            <span class="terminal-label">cipher_sdk.ts</span>
+          </div>
+          <div class="terminal-body">
+            <div><span class="t-cmd">import</span> { <span class="t-ok">CipherClient</span> } <span class="t-cmd">from</span> <span class="t-str">'@cipher/sdk'</span></div>
+            <div>&nbsp;</div>
+            <div><span class="t-cmd">const</span> client = <span class="t-cmd">new</span> <span class="t-ok">CipherClient</span>({</div>
+            <div>  network: <span class="t-str">'mainnet'</span>,</div>
+            <div>  auth:    <span class="t-str">'wallet'</span>,</div>
+            <div>})</div>
+            <div>&nbsp;</div>
+            <div><span class="t-cmd">const</span> tx = <span class="t-cmd">await</span> client.protocol</div>
+            <div>  .deploy(<span class="t-str">'./vault.ts'</span>)</div>
+            <div>  .withZKProof()</div>
+            <div>  .broadcast()</div>
+            <div>&nbsp;</div>
+            <div class="t-ok">// ✓ Deployed: cipher://vault.0x4a2f</div>
+            <div><span class="t-cursor"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Mini feature grid -->
+<section class="mini-grid-section">
+  <div class="container">
+    <h2 class="section-title" style="text-align:center;margin-bottom:2.5rem">Everything else you need</h2>
+    <div class="mini-grid">
+      <div class="mini-card holo-card" data-reveal>
+        <div class="mini-icon neon-text">⟳</div>
+        <h3 class="mini-title">Auto-scaling</h3>
+        <p class="mini-body">Traffic spikes handled automatically. No manual intervention, no cold starts.</p>
+      </div>
+      <div class="mini-card holo-card" data-reveal>
+        <div class="mini-icon pink-text">◈</div>
+        <h3 class="mini-title">Smart audits</h3>
+        <p class="mini-body">AI-powered vulnerability scanning runs before every deploy. 0 false positives.</p>
+      </div>
+      <div class="mini-card holo-card" data-reveal>
+        <div class="mini-icon" style="color:#a855f7">⬡</div>
+        <h3 class="mini-title">On-chain governance</h3>
+        <p class="mini-body">Token-weighted voting on protocol upgrades. Fully decentralized decision-making.</p>
+      </div>
+      <div class="mini-card holo-card" data-reveal>
+        <div class="mini-icon" style="color:var(--acid)">≡</div>
+        <h3 class="mini-title">Audit trail</h3>
+        <p class="mini-body">Every state change, cryptographically signed and stored on-chain. Immutable.</p>
+      </div>
+      <div class="mini-card holo-card" data-reveal>
+        <div class="mini-icon neon-text">⚡</div>
+        <h3 class="mini-title">94K TPS</h3>
+        <p class="mini-body">Highest throughput of any privacy-preserving L2. No sharding required.</p>
+      </div>
+      <div class="mini-card holo-card" data-reveal>
+        <div class="mini-icon pink-text">◎</div>
+        <h3 class="mini-title">Privacy by default</h3>
+        <p class="mini-body">All transactions are private. Opt-in to reveal — never the other way around.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-glow-cyan" aria-hidden="true"></div>
+      <div class="cta-glow-pink" aria-hidden="true"></div>
+      <p class="section-label" style="justify-content:center">Deploy</p>
+      <h2 class="cta-title">Ready to go dark?</h2>
+      <p class="cta-sub">Start with the free tier. No credit card. No KYC. No permission needed.</p>
+      <div class="cta-actions">
+        <a href="pricing.html" class="btn-primary magnetic">View access tiers</a>
+        <a href="#" class="btn-ghost">Read docs →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-logo">CIPHER<span>_</span></div>
+        <p class="footer-tagline">Zero-trust. Unstoppable.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <div class="footer-col-title">Protocol</div>
+          <a href="features.html">Architecture</a>
+          <a href="features.html">Encryption</a>
+          <a href="features.html">ZK Proofs</a>
+          <a href="features.html">Network</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Resources</div>
+          <a href="blog.html">Dispatch</a>
+          <a href="#">Documentation</a>
+          <a href="#">Whitepaper</a>
+          <a href="#">GitHub</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Network</div>
+          <a href="#">Node Status</a>
+          <a href="#">Governance</a>
+          <a href="#">Community</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 CIPHER Protocol. All rights reserved.</p>
+      <div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Security</a></div>
+    </div>
+  </div>
+</footer>
+
+
+<style>
+.feat-hero{position:relative;overflow:hidden}
+.feat-hero-bg{position:absolute;inset:0;pointer-events:none}
+.feat-orb{position:absolute;border-radius:50%;filter:blur(80px)}
+.feat-orb--1{width:500px;height:500px;background:radial-gradient(circle,rgba(0,245,212,.14),transparent 70%);top:-30%;left:-10%;animation:orb-drift 14s ease-in-out infinite alternate}
+.feat-orb--2{width:400px;height:400px;background:radial-gradient(circle,rgba(245,0,213,.1),transparent 70%);top:0;right:-5%;animation:orb-drift 11s ease-in-out infinite alternate-reverse}
+@keyframes orb-drift{from{transform:translate(0,0)}to{transform:translate(30px,50px)}}
+.feat-hero .page-hero-title{font-size:var(--t-6xl)}
+
+/* Feature rows */
+.feat-rows{padding:var(--section-gap) 0}
+.feat-row{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;padding:var(--section-gap) var(--px);max-width:calc(var(--max-w) + var(--px)*2);margin:0 auto;border-bottom:1px solid var(--border)}
+.feat-row:last-child{border-bottom:none}
+.feat-row--reverse .feat-copy{order:2}
+.feat-row--reverse .feat-visual{order:1}
+.feat-num{font-size:var(--t-5xl);font-weight:700;color:var(--cyan);opacity:.1;line-height:1;margin-bottom:.5rem}
+.feat-title{font-size:var(--t-4xl);font-weight:700;letter-spacing:-.04em;line-height:1.1;margin:1rem 0 .75rem}
+.feat-body{font-size:var(--t-base);color:var(--text-2);line-height:1.7;margin-bottom:1.25rem;max-width:42ch}
+.feat-list{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.feat-list li{display:flex;align-items:center;gap:.65rem;font-size:var(--t-sm);color:var(--text-2)}
+.feat-check{color:var(--cyan);font-size:var(--t-sm);flex-shrink:0}
+
+/* Confidence bars */
+.conf-bar-wrap{margin-top:1.25rem}
+.conf-label{font-family:var(--mono);font-size:var(--t-xs);color:var(--text-3);margin-top:.75rem;margin-bottom:.35rem;letter-spacing:.05em}
+.conf-bar{height:4px;background:var(--bg-3);border-radius:4px;overflow:hidden;position:relative}
+.conf-bar::after{content:'';position:absolute;inset:0;width:0;background:linear-gradient(90deg,var(--cyan),var(--acid));border-radius:4px;transition:width 1.5s var(--ease-expo);box-shadow:0 0 8px var(--cyan-glow)}
+.conf-bar.animated::after{width:var(--w)}
+.conf-bar span{position:absolute;right:0;top:-1.25rem;font-family:var(--mono);font-size:var(--t-xs);color:var(--text-3)}
+
+/* ZKP demo */
+.zkp-demo{padding:1.75rem}
+.zkp-demo-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.zkp-timer{font-size:var(--t-sm);color:var(--acid);background:rgba(180,255,57,.08);border:1px solid rgba(180,255,57,.2);padding:.25rem .65rem;border-radius:100px}
+.zkp-flow{display:flex;align-items:center;gap:1rem}
+.zkp-box{flex:1;background:var(--bg-3);border:1px solid var(--border);border-radius:var(--r-md);padding:1rem}
+.zkp-box-label{font-family:var(--mono);font-size:var(--t-xs);font-weight:700;color:var(--text-3);letter-spacing:.1em;margin-bottom:.75rem}
+.zkp-data-row{display:flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:var(--t-xs);margin-bottom:.35rem}
+.zkp-hidden{color:var(--text-3);letter-spacing:.1em}
+.zkp-arrow-big{display:flex;flex-direction:column;align-items:center;gap:.35rem;flex-shrink:0}
+.zkp-proof-label{font-size:.6rem;color:var(--pink);letter-spacing:.06em}
+.zkp-arrow-line{width:40px;height:1px;background:linear-gradient(90deg,var(--pink),var(--purple));position:relative}
+.zkp-arrow-line::after{content:'▶';position:absolute;right:-8px;top:-7px;color:var(--purple);font-size:.6rem}
+.zkp-verify-result{display:flex;align-items:flex-start;gap:.75rem}
+.zkp-check{font-size:1.5rem;color:var(--acid);line-height:1;flex-shrink:0}
+.zkp-verifier{border-color:rgba(180,255,57,.2)}
+
+/* Globe visual */
+.globe-card{padding:1.75rem}
+.globe-header{font-size:var(--t-xs);display:flex;gap:1rem;margin-bottom:1.25rem;letter-spacing:.05em}
+.globe-visual{position:relative;height:160px;margin-bottom:1.25rem}
+.globe-ring{position:absolute;border-radius:50%;border:1px solid;top:50%;left:50%;transform:translate(-50%,-50%)}
+.globe-ring--1{width:100px;height:50px;border-color:rgba(0,245,212,.3);transform:translate(-50%,-50%) rotateX(75deg);animation:globe-spin 8s linear infinite}
+.globe-ring--2{width:140px;height:70px;border-color:rgba(245,0,213,.2);transform:translate(-50%,-50%) rotateX(75deg) rotate(60deg);animation:globe-spin 12s linear infinite reverse}
+.globe-ring--3{width:160px;height:80px;border-color:rgba(112,0,255,.2);transform:translate(-50%,-50%) rotateX(75deg) rotate(120deg);animation:globe-spin 20s linear infinite}
+@keyframes globe-spin{from{rotate:0deg}to{rotate:360deg}}
+.globe-dot{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan-glow);left:var(--gx);top:var(--gy);transform:translate(-50%,-50%);animation:dot-pulse 3s ease-in-out infinite}
+.globe-dot--pink{background:var(--pink);box-shadow:0 0 8px var(--pink-glow);animation-delay:.5s}
+.globe-dot--purple{background:#a855f7;box-shadow:0 0 8px rgba(168,85,247,.5);animation-delay:1s}
+@keyframes dot-pulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.5)}}
+.globe-stats{display:flex;justify-content:space-around;border-top:1px solid var(--border);padding-top:1rem}
+.globe-stat{display:flex;flex-direction:column;align-items:center;gap:.25rem}
+.globe-stat span:last-child{font-size:var(--t-xs);color:var(--text-3)}
+
+/* Mini grid */
+.mini-grid-section{padding:var(--section-gap) var(--px);background:linear-gradient(180deg,transparent,rgba(0,245,212,.02),transparent)}
+.mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;max-width:var(--max-w);margin:0 auto}
+.mini-card{padding:2rem}
+.mini-icon{font-size:2rem;margin-bottom:1rem;display:block}
+.mini-title{font-size:var(--t-lg);font-weight:700;letter-spacing:-.02em;margin-bottom:.5rem}
+.mini-body{font-size:var(--t-sm);color:var(--text-2);line-height:1.65}
+
+/* CTA */
+.cta-section{padding:var(--section-gap) var(--px) 5rem}
+.cta-inner{position:relative;text-align:center;padding:6rem 2rem;background:var(--bg-card);border:1px solid var(--border);border-radius:32px;overflow:hidden;max-width:var(--max-w);margin:0 auto}
+.cta-glow-cyan{position:absolute;top:50%;left:30%;transform:translate(-50%,-60%);width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(0,245,212,.12),transparent 65%);filter:blur(40px);pointer-events:none}
+.cta-glow-pink{position:absolute;top:50%;right:10%;transform:translate(0,-50%);width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(245,0,213,.1),transparent 65%);filter:blur(40px);pointer-events:none}
+.cta-title{position:relative;font-family:var(--mono);font-size:var(--t-5xl);font-weight:700;letter-spacing:.04em;margin-bottom:1rem;color:var(--cyan);text-shadow:0 0 40px var(--cyan-glow)}
+.cta-sub{position:relative;font-size:var(--t-lg);color:var(--text-2);max-width:50ch;margin:0 auto 2.5rem;line-height:1.6}
+.cta-actions{position:relative;display:flex;align-items:center;justify-content:center;gap:1.25rem;flex-wrap:wrap}
+
+@media(max-width:900px){.feat-row{grid-template-columns:1fr;gap:2.5rem}.feat-row--reverse .feat-copy{order:0}.feat-row--reverse .feat-visual{order:1}.mini-grid{grid-template-columns:repeat(2,1fr)}.zkp-flow{flex-direction:column}}
+@media(max-width:580px){.mini-grid{grid-template-columns:1fr}}
+</style>

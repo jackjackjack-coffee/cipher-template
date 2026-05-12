@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRYSTALS-Kyber: Why Post-Quantum Cryptography Is No Longer Optional — CIPHER Dispatch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Article layout ───────────────────────────────────────────────────── */
+    .article-hero {
+      padding: 10rem var(--px) 4rem;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .article-breadcrumb {
+      font-family: var(--mono);
+      font-size: .72rem;
+      letter-spacing: .1em;
+      color: var(--fg-muted);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .article-breadcrumb a { color: var(--cyan); text-decoration: none; }
+    .article-breadcrumb svg { width: 12px; opacity: .4; }
+
+    .article-tag {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: .68rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      padding: .3rem .75rem;
+      border: 1px solid color-mix(in srgb, var(--pink) 40%, transparent);
+      background: color-mix(in srgb, var(--pink) 10%, transparent);
+      color: var(--pink);
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+    }
+    .article-title {
+      font-size: clamp(2rem, 4.5vw, 3.4rem);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      font-family: var(--mono);
+      font-size: .75rem;
+      color: var(--fg-muted);
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .article-meta-sep { color: var(--border); }
+    .article-meta-author { color: var(--cyan); }
+
+    /* ─── Reading progress bar ─────────────────────────────────────────────── */
+    .reading-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--cyan), var(--pink));
+      z-index: 9999;
+      transform-origin: left;
+      transform: scaleX(0);
+      box-shadow: 0 0 8px var(--cyan);
+    }
+
+    /* ─── Article body ─────────────────────────────────────────────────────── */
+    .article-layout {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--px) 6rem;
+      align-items: start;
+    }
+    .article-body {
+      min-width: 0;
+    }
+    .article-body h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin: 3rem 0 1rem;
+      color: var(--fg);
+    }
+    .article-body h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: -.01em;
+      margin: 2rem 0 .75rem;
+      color: var(--cyan);
+    }
+    .article-body p {
+      font-size: 1.02rem;
+      line-height: 1.8;
+      color: var(--fg-muted);
+      margin-bottom: 1.5rem;
+    }
+    .article-body strong { color: var(--fg); font-weight: 600; }
+    .article-body a { color: var(--cyan); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--cyan) 30%, transparent); }
+
+    /* Pull quote */
+    .pull-quote {
+      border-left: 2px solid var(--cyan);
+      padding: 1.25rem 1.75rem;
+      margin: 2.5rem 0;
+      background: color-mix(in srgb, var(--cyan) 5%, transparent);
+      border-radius: 0 6px 6px 0;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--fg);
+      font-style: italic;
+    }
+
+    /* Callout box */
+    .callout {
+      border: 1px solid color-mix(in srgb, var(--acid) 30%, transparent);
+      background: color-mix(in srgb, var(--acid) 5%, transparent);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin: 2rem 0;
+      font-family: var(--mono);
+      font-size: .82rem;
+      color: var(--fg-muted);
+      line-height: 1.6;
+    }
+    .callout-label {
+      font-size: .68rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--acid);
+      margin-bottom: .5rem;
+    }
+
+    /* Code block */
+    .code-block {
+      background: #060610;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 2rem 0;
+    }
+    .code-block-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .75rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,.02);
+    }
+    .code-block-lang {
+      font-family: var(--mono);
+      font-size: .68rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--cyan);
+    }
+    .code-copy-btn {
+      font-family: var(--mono);
+      font-size: .65rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--fg-muted);
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: .25rem .65rem;
+      cursor: pointer;
+      transition: color .2s, border-color .2s;
+    }
+    .code-copy-btn:hover { color: var(--cyan); border-color: var(--cyan); }
+    .code-block pre {
+      padding: 1.5rem;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: .82rem;
+      line-height: 1.7;
+      color: var(--fg-muted);
+      margin: 0;
+    }
+    .code-block .kw  { color: var(--pink); }
+    .code-block .fn  { color: var(--cyan); }
+    .code-block .str { color: var(--acid); }
+    .code-block .cm  { color: var(--border); font-style: italic; }
+    .code-block .num { color: var(--purple); }
+
+    /* Data table */
+    .data-table-wrap {
+      overflow-x: auto;
+      margin: 2rem 0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--mono);
+      font-size: .82rem;
+    }
+    .data-table th {
+      padding: .85rem 1.25rem;
+      text-align: left;
+      font-size: .68rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--fg-muted);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,.02);
+    }
+    .data-table td {
+      padding: .85rem 1.25rem;
+      border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+      color: var(--fg-muted);
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table td.good { color: var(--acid); }
+    .data-table td.warn { color: var(--pink); }
+    .data-table .row-highlight td { background: color-mix(in srgb, var(--cyan) 4%, transparent); }
+    .data-table .row-highlight td:first-child { color: var(--cyan); }
+
+    /* Section divider */
+    .section-div {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 3rem 0;
+    }
+
+    /* Article image placeholder */
+    .article-figure {
+      margin: 2.5rem 0;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .article-figure-inner {
+      height: 300px;
+      background: #090916;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .fig-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--cyan) 1px, transparent 1px),
+        linear-gradient(to right, var(--cyan) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: .04;
+    }
+    .fig-label {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+    .fig-caption {
+      padding: .75rem 1.25rem;
+      font-family: var(--mono);
+      font-size: .72rem;
+      color: var(--fg-muted);
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    /* Kyber diagram */
+    .kyber-diagram {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 1rem;
+      align-items: center;
+      width: 100%;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .kyber-box {
+      border: 1px solid color-mix(in srgb, var(--cyan) 35%, transparent);
+      border-radius: 8px;
+      background: rgba(0,245,212,.05);
+      padding: 1rem;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: .72rem;
+      color: var(--fg-muted);
+    }
+    .kyber-box strong { display: block; color: var(--cyan); margin-bottom: .35rem; font-size: .85rem; }
+    .kyber-arrow { text-align: center; color: var(--border); font-size: 1.2rem; }
+
+    /* Tags list */
+    .article-tags {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      margin: 3rem 0 1rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .article-tags span {
+      font-family: var(--mono);
+      font-size: .68rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .3rem .75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--fg-muted);
+    }
+
+    /* ─── Author bio ────────────────────────────────────────────────────────── */
+    .author-bio {
+      margin-top: 3rem;
+      padding: 1.75rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+    .author-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: .85rem;
+      font-weight: 700;
+      color: #000;
+    }
+    .author-name { font-weight: 600; margin-bottom: .35rem; }
+    .author-role {
+      font-family: var(--mono);
+      font-size: .7rem;
+      letter-spacing: .1em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: .6rem;
+    }
+    .author-desc { font-size: .875rem; color: var(--fg-muted); line-height: 1.6; }
+
+    /* ─── Sidebar ───────────────────────────────────────────────────────────── */
+    .article-sidebar {
+      position: sticky;
+      top: 6rem;
+    }
+    .sidebar-toc {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .sidebar-label {
+      font-family: var(--mono);
+      font-size: .68rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--fg-muted);
+      margin-bottom: 1rem;
+    }
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+    .toc-list a {
+      font-size: .82rem;
+      color: var(--fg-muted);
+      text-decoration: none;
+      transition: color .2s;
+      display: block;
+      padding-left: .75rem;
+      border-left: 1px solid var(--border);
+    }
+    .toc-list a:hover,
+    .toc-list a.active { color: var(--cyan); border-left-color: var(--cyan); }
+
+    .sidebar-share {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      padding: 1.5rem;
+    }
+    .share-btns {
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+      margin-top: .75rem;
+    }
+    .share-btn {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      font-family: var(--mono);
+      font-size: .75rem;
+      letter-spacing: .08em;
+      color: var(--fg-muted);
+      padding: .65rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      background: transparent;
+      transition: color .2s, border-color .2s;
+      text-align: left;
+    }
+    .share-btn:hover { color: var(--cyan); border-color: var(--cyan); }
+
+    /* ─── Related posts ─────────────────────────────────────────────────────── */
+    .related-posts {
+      padding: 0 var(--px) 6rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .related-label {
+      font-family: var(--mono);
+      font-size: .72rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--fg-muted);
+      margin-bottom: 2rem;
+    }
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    /* ─── Responsive ────────────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .article-layout { grid-template-columns: 1fr; }
+      .article-sidebar { position: static; }
+      .related-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 580px) {
+      .related-grid { grid-template-columns: 1fr; }
+      .author-bio { flex-direction: column; }
+      .kyber-diagram { grid-template-columns: 1fr; }
+      .kyber-arrow { transform: rotate(90deg); }
+    }
+  </style>
+  <script type="module" crossorigin src="/assets/blogPost-6t2a0n_v.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/shared-BbviWq5C.js">
+  <link rel="stylesheet" crossorigin href="/assets/shared-rE5CAoET.css">
+</head>
+<body>
+
+  <!-- Reading progress bar -->
+  <div class="reading-progress" id="reading-progress"></div>
+
+  <!-- Cursor -->
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">CIPHER<span class="logo-dot">_</span></a>
+    <ul class="nav-links">
+      <li><a href="features.html">Protocol</a></li>
+      <li><a href="pricing.html">Access</a></li>
+      <li><a href="blog.html">Dispatch</a></li>
+      <li><a href="#">Docs</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="pricing.html" class="btn-ghost magnetic">Connect</a>
+      <a href="pricing.html" class="btn-primary magnetic">Get Access</a>
+      <button class="nav-hamburger" aria-label="Menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Article hero -->
+  <header class="article-hero">
+    <nav class="article-breadcrumb">
+      <a href="blog.html">Dispatch</a>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      <span>Security</span>
+    </nav>
+    <span class="article-tag">Security</span>
+    <h1 class="article-title post-title">CRYSTALS-Kyber: Why Post-Quantum Cryptography Is No Longer Optional</h1>
+    <div class="article-meta">
+      <span class="article-meta-author">NOVA_STARK</span>
+      <span class="article-meta-sep">◆</span>
+      <span>Chief Security Researcher</span>
+      <span class="article-meta-sep">◆</span>
+      <span>12 MIN READ</span>
+      <span class="article-meta-sep">◆</span>
+      <span>2026-05-08</span>
+    </div>
+  </header>
+
+  <!-- Article layout: body + sidebar -->
+  <div class="article-layout">
+
+    <!-- Body -->
+    <article class="article-body">
+
+      <p>In August 2024, IBM's quantum team ran Shor's algorithm on a 1,000-qubit processor and factored a 512-bit RSA key in 47 minutes. The cryptographic community's comfortable assumption — that quantum computers capable of breaking RSA were decades away — died quietly that Thursday afternoon.</p>
+
+      <p>The implications are stark: every TLS handshake, every encrypted email, every HTTPS session you transmit today is being archived by adversaries running <strong>"harvest now, decrypt later"</strong> campaigns. When quantum hardware matures sufficiently, that data becomes readable. The window to migrate is not theoretical — it is closing.</p>
+
+      <div class="pull-quote">
+        "Quantum computers don't need to exist at scale today to threaten your data today. Every packet you transmit is a future liability."
+      </div>
+
+      <h2 id="nist-standards">NIST's Post-Quantum Standards: What You Need to Know</h2>
+
+      <p>After a six-year standardization process, NIST finalized three post-quantum cryptographic algorithms in 2024. Understanding the difference between them is prerequisite to making defensible engineering decisions.</p>
+
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Algorithm</th>
+              <th>Type</th>
+              <th>Primary Use</th>
+              <th>Key Size</th>
+              <th>CIPHER Support</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="row-highlight">
+              <td>CRYSTALS-Kyber</td>
+              <td>Lattice (ML-KEM)</td>
+              <td>Key encapsulation</td>
+              <td>800–1568 bytes</td>
+              <td class="good">✓ Native</td>
+            </tr>
+            <tr>
+              <td>CRYSTALS-Dilithium</td>
+              <td>Lattice (ML-DSA)</td>
+              <td>Digital signatures</td>
+              <td>1312–2592 bytes</td>
+              <td class="good">✓ Native</td>
+            </tr>
+            <tr>
+              <td>SPHINCS+</td>
+              <td>Hash-based</td>
+              <td>Digital signatures</td>
+              <td>64 bytes</td>
+              <td class="good">✓ Beta</td>
+            </tr>
+            <tr>
+              <td>RSA-2048</td>
+              <td>Integer factoring</td>
+              <td>Key exchange / sig</td>
+              <td>256 bytes</td>
+              <td class="warn">⚠ Deprecated</td>
+            </tr>
+            <tr>
+              <td>ECDH P-256</td>
+              <td>Elliptic curve</td>
+              <td>Key exchange</td>
+              <td>32 bytes</td>
+              <td class="warn">⚠ Deprecated</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="kyber-deep-dive">CRYSTALS-Kyber: A Technical Deep Dive</h2>
+
+      <p>Kyber's security rests on the <strong>Module Learning With Errors (MLWE)</strong> problem — a lattice problem believed to resist both classical and quantum attacks. The intuition: given a high-dimensional lattice with intentionally added noise, recovering the original secret is computationally infeasible even for quantum algorithms like Grover's or Shor's.</p>
+
+      <h3>The Key Encapsulation Mechanism</h3>
+
+      <p>Kyber operates as a Key Encapsulation Mechanism (KEM), not a traditional key exchange. The flow differs meaningfully from ECDH:</p>
+
+      <div class="article-figure">
+        <div class="article-figure-inner">
+          <div class="fig-grid"></div>
+          <div class="fig-label">
+            <div class="kyber-diagram">
+              <div class="kyber-box">
+                <strong>Alice</strong>
+                Generate keypair<br>
+                <code style="color:var(--acid);font-size:.7rem">pk, sk = Kyber.KeyGen()</code>
+              </div>
+              <div class="kyber-arrow">→→</div>
+              <div class="kyber-box">
+                <strong>Bob</strong>
+                Encapsulate<br>
+                <code style="color:var(--acid);font-size:.7rem">ct, K = Kyber.Enc(pk)</code>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fig-caption">Fig 1. Kyber-768 key encapsulation: Bob encapsulates a shared secret K using Alice's public key. Only Alice's private key can decapsulate.</div>
+      </div>
+
+      <p>Alice generates a public/private keypair. Bob uses Alice's public key to <em>encapsulate</em> a randomly generated shared secret, producing a ciphertext. Alice uses her private key to <em>decapsulate</em> and recover the same shared secret. The shared secret never traverses the wire.</p>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">TypeScript</span>
+          <button class="code-copy-btn" data-copy>Copy</button>
+        </div>
+        <pre><span class="cm">// CIPHER SDK — Kyber-768 key exchange</span>
+<span class="kw">import</span> { <span class="fn">CipherProtocol</span>, <span class="fn">PQAlgorithm</span> } <span class="kw">from</span> <span class="str">'@cipher/sdk'</span>
+
+<span class="kw">const</span> cipher = <span class="kw">new</span> <span class="fn">CipherProtocol</span>({
+  algorithm: PQAlgorithm.<span class="fn">KYBER_768</span>,  <span class="cm">// NIST Level 3</span>
+  fallback:  <span class="str">'none'</span>,               <span class="cm">// refuse classical fallback</span>
+})
+
+<span class="cm">// Generate keypair</span>
+<span class="kw">const</span> { publicKey, privateKey } = <span class="kw">await</span> cipher.<span class="fn">generateKeypair</span>()
+
+<span class="cm">// Encapsulate (Bob's side)</span>
+<span class="kw">const</span> { ciphertext, sharedSecret } = <span class="kw">await</span> cipher.<span class="fn">encapsulate</span>(publicKey)
+
+<span class="cm">// Decapsulate (Alice's side)</span>
+<span class="kw">const</span> recovered = <span class="kw">await</span> cipher.<span class="fn">decapsulate</span>(privateKey, ciphertext)
+
+console.<span class="fn">assert</span>(sharedSecret === recovered) <span class="cm">// always true</span></pre>
+      </div>
+
+      <h2 id="migration">Migrating Your Stack Before 2027</h2>
+
+      <p>The migration is not trivial. Kyber keys are larger than RSA or ECDH keys — Kyber-768's public key is 1,184 bytes versus P-256's 65 bytes. This affects TLS handshake sizes, certificate chain lengths, and any protocol that serializes key material.</p>
+
+      <div class="callout">
+        <div class="callout-label">// migration checklist</div>
+        <p style="margin:0;line-height:1.8">
+          ✓ Audit all key exchange points in your stack<br>
+          ✓ Replace RSA/ECDH with Kyber at the handshake layer<br>
+          ✓ Replace ECDSA signatures with Dilithium<br>
+          ✓ Update certificate infrastructure for larger key sizes<br>
+          ✓ Run hybrid classical+PQ during transition period<br>
+          ✗ Do NOT maintain RSA as fallback after 2026-12-31
+        </p>
+      </div>
+
+      <h3>Hybrid Transitional Mode</h3>
+
+      <p>During migration, CIPHER recommends running a <strong>hybrid key exchange</strong>: combine ECDH X25519 with Kyber-768 such that breaking the connection requires breaking <em>both</em> algorithms simultaneously. This provides defense-in-depth during the transition window without sacrificing quantum resistance.</p>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">TypeScript</span>
+          <button class="code-copy-btn" data-copy>Copy</button>
+        </div>
+        <pre><span class="cm">// Hybrid mode: X25519 + Kyber-768</span>
+<span class="kw">const</span> cipher = <span class="kw">new</span> <span class="fn">CipherProtocol</span>({
+  algorithm: PQAlgorithm.<span class="fn">HYBRID_X25519_KYBER768</span>,
+  <span class="cm">// shared secret = KDF(x25519_secret || kyber_secret)</span>
+  <span class="cm">// attacker must break BOTH to read traffic</span>
+})
+
+<span class="kw">const</span> session = <span class="kw">await</span> cipher.<span class="fn">connect</span>(<span class="str">'node://0x4a2f.cipher'</span>)
+console.<span class="fn">log</span>(session.algorithm) <span class="cm">// 'X25519+Kyber768'</span>
+console.<span class="fn">log</span>(session.quantumSafe) <span class="cm">// true</span></pre>
+      </div>
+
+      <h2 id="performance">Performance: The Real Cost</h2>
+
+      <p>The primary objection to PQC adoption is performance overhead. The concern is legitimate but overstated. On modern hardware, Kyber-768 key generation takes ~18μs versus ~32μs for RSA-2048. Encapsulation/decapsulation is similarly competitive. The real overhead is bandwidth — larger keys mean larger handshakes.</p>
+
+      <p>CIPHER's implementation mitigates this through <strong>session key caching</strong>: once a Kyber handshake completes, the derived symmetric key persists across connection resumptions, amortizing the overhead across thousands of requests.</p>
+
+      <div class="pull-quote">
+        "The cost of migrating to post-quantum cryptography is measured in engineering weeks. The cost of not migrating is measured in everything."
+      </div>
+
+      <h2 id="conclusion">Act Now, Not After</h2>
+
+      <p>The harvest-now-decrypt-later threat is not hypothetical. Intelligence agencies and well-funded adversaries are already archiving encrypted traffic at scale. The encrypted data you transmit today has a security TTL determined entirely by quantum hardware progress — a timeline outside your control.</p>
+
+      <p>CIPHER's post-quantum stack is production-ready today. The migration tooling is documented, the SDK handles the complexity, and the GHOST tier is free. There is no defensible reason to delay.</p>
+
+      <div class="article-tags">
+        <span>Post-Quantum</span>
+        <span>CRYSTALS-Kyber</span>
+        <span>Cryptography</span>
+        <span>NIST</span>
+        <span>TLS</span>
+        <span>Security</span>
+      </div>
+
+      <!-- Author bio -->
+      <div class="author-bio">
+        <div class="author-avatar">NS</div>
+        <div>
+          <div class="author-name">NOVA_STARK</div>
+          <div class="author-role">Chief Security Researcher</div>
+          <div class="author-desc">Former NSA TAO red team lead. Specializes in post-quantum migration, adversarial protocol analysis, and lattice-based cryptography. Has broken three "quantum-resistant" products that weren't.</div>
+        </div>
+      </div>
+
+    </article>
+
+    <!-- Sidebar -->
+    <aside class="article-sidebar">
+      <div class="sidebar-toc">
+        <div class="sidebar-label">// contents</div>
+        <ul class="toc-list">
+          <li><a href="#nist-standards" class="active">NIST PQC Standards</a></li>
+          <li><a href="#kyber-deep-dive">CRYSTALS-Kyber Deep Dive</a></li>
+          <li><a href="#migration">Migration Roadmap</a></li>
+          <li><a href="#performance">Performance Analysis</a></li>
+          <li><a href="#conclusion">Act Now</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-share">
+        <div class="sidebar-label">// transmit</div>
+        <div class="share-btns">
+          <button class="share-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+            Share on X
+          </button>
+          <button class="share-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+            Share on LinkedIn
+          </button>
+          <button class="share-btn" id="copy-link-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+            Copy Link
+          </button>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Related posts -->
+  <section class="related-posts">
+    <p class="related-label">// related transmissions</p>
+    <div class="related-grid">
+
+      <a href="blog-post.html" style="text-decoration:none;color:inherit">
+        <article class="blog-card" data-reveal>
+          <div class="blog-card-visual">
+            <div class="hex-bg"></div>
+            <div class="vis-zkp">
+              <div class="vis-zkp-ring"></div>
+              <div class="vis-zkp-ring"></div>
+              <div class="vis-zkp-dot"></div>
+            </div>
+          </div>
+          <div class="blog-card-body">
+            <span class="post-tag">Protocol</span>
+            <h3 class="blog-card-title">Zero-Knowledge Proofs: Proving Without Revealing</h3>
+            <div class="blog-card-meta">
+              <span>REIV_CHEN</span>
+              <span class="dot">◆</span>
+              <span>8 MIN</span>
+            </div>
+          </div>
+        </article>
+      </a>
+
+      <a href="blog-post.html" style="text-decoration:none;color:inherit">
+        <article class="blog-card" data-reveal>
+          <div class="blog-card-visual">
+            <div class="hex-bg"></div>
+            <div class="vis-lock">
+              <div class="vis-lock-glow"></div>
+              <svg class="vis-lock-svg" viewBox="0 0 48 48" fill="none">
+                <rect x="10" y="22" width="28" height="20" rx="3" stroke="#f500d5" stroke-width="2" fill="none"/>
+                <path d="M16 22v-6a8 8 0 0116 0v6" stroke="#f500d5" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="24" cy="32" r="3" fill="#f500d5"/>
+              </svg>
+            </div>
+          </div>
+          <div class="blog-card-body">
+            <span class="post-tag pink">Security</span>
+            <h3 class="blog-card-title">Zero Breach Architecture: Lessons from Three Years of Adversarial Testing</h3>
+            <div class="blog-card-meta">
+              <span>NOVA_STARK</span>
+              <span class="dot">◆</span>
+              <span>14 MIN</span>
+            </div>
+          </div>
+        </article>
+      </a>
+
+      <a href="blog-post.html" style="text-decoration:none;color:inherit">
+        <article class="blog-card" data-reveal>
+          <div class="blog-card-visual">
+            <div class="vis-wave">
+              <div class="vis-wave-line"></div>
+              <div class="vis-wave-line"></div>
+              <div class="vis-wave-line"></div>
+            </div>
+          </div>
+          <div class="blog-card-body">
+            <span class="post-tag purple">Research</span>
+            <h3 class="blog-card-title">Homomorphic Encryption at Scale: Computing on Encrypted Data</h3>
+            <div class="blog-card-meta">
+              <span>REIV_CHEN</span>
+              <span class="dot">◆</span>
+              <span>18 MIN</span>
+            </div>
+          </div>
+        </article>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="nav-logo">CIPHER<span class="logo-dot">_</span></span>
+        <p>Zero-trust infrastructure<br>for the ungovernable.</p>
+      </div>
+      <div class="footer-col">
+        <span class="footer-label">PROTOCOL</span>
+        <a href="features.html">Features</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="#">Documentation</a>
+        <a href="#">Changelog</a>
+      </div>
+      <div class="footer-col">
+        <span class="footer-label">NETWORK</span>
+        <a href="#">Node Map</a>
+        <a href="#">Status</a>
+        <a href="#">Explorer</a>
+        <a href="#">Governance</a>
+      </div>
+      <div class="footer-col">
+        <span class="footer-label">OPERATORS</span>
+        <a href="#">GitHub</a>
+        <a href="#">Discord</a>
+        <a href="#">Twitter / X</a>
+        <a href="#">Security</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 CIPHER Protocol. All rights reserved.</span>
+      <span>Built for the ungovernable.</span>
+    </div>
+  </footer>
+
+  <style>
+    /* Shared card styles needed for related section */
+    .hex-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(60deg, transparent, transparent 30px, color-mix(in srgb, var(--cyan) 6%, transparent) 30px, color-mix(in srgb, var(--cyan) 6%, transparent) 31px),
+        repeating-linear-gradient(120deg, transparent, transparent 30px, color-mix(in srgb, var(--cyan) 6%, transparent) 30px, color-mix(in srgb, var(--cyan) 6%, transparent) 31px),
+        repeating-linear-gradient(0deg, transparent, transparent 52px, color-mix(in srgb, var(--cyan) 4%, transparent) 52px, color-mix(in srgb, var(--cyan) 4%, transparent) 53px);
+      animation: hex-drift 12s linear infinite;
+    }
+    @keyframes hex-drift { to { background-position: 60px 104px; } }
+    .vis-zkp { position:absolute;inset:0;display:flex;align-items:center;justify-content:center; }
+    .vis-zkp-ring { width:90px;height:90px;border-radius:50%;border:1px solid color-mix(in srgb,var(--cyan) 35%,transparent);position:absolute;animation:ring-spin 8s linear infinite; }
+    .vis-zkp-ring:nth-child(2) { width:60px;height:60px;border-color:color-mix(in srgb,var(--pink) 35%,transparent);animation-duration:5s;animation-direction:reverse; }
+    .vis-zkp-dot { width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);position:relative;z-index:2; }
+    .vis-lock { position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem; }
+    .vis-lock-svg { width:48px;opacity:.8; }
+    .vis-lock-glow { width:60px;height:60px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--pink) 20%,transparent),transparent 70%);position:absolute;animation:lock-pulse 2s ease-in-out infinite; }
+    @keyframes lock-pulse { 0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.5);opacity:1} }
+    .vis-wave { position:absolute;inset:0;overflow:hidden; }
+    .vis-wave-line { position:absolute;width:200%;left:-50%;height:2px;background:linear-gradient(to right,transparent,var(--cyan),var(--pink),transparent);animation:wave-move 3s ease-in-out infinite; }
+    .vis-wave-line:nth-child(1){top:30%;opacity:.6;animation-delay:0s}
+    .vis-wave-line:nth-child(2){top:50%;opacity:.4;animation-delay:.5s;animation-duration:3.5s}
+    .vis-wave-line:nth-child(3){top:70%;opacity:.3;animation-delay:1s;animation-duration:4s}
+    @keyframes wave-move{0%,100%{transform:translateX(0) scaleY(1)}50%{transform:translateX(-10%) scaleY(3)}}
+    .blog-card { border:1px solid var(--border);border-radius:10px;background:var(--surface);overflow:hidden;display:flex;flex-direction:column;transition:border-color .3s,transform .3s; }
+    .blog-card:hover { border-color:color-mix(in srgb,var(--cyan) 40%,transparent);transform:translateY(-4px); }
+    .blog-card-visual { height:180px;position:relative;overflow:hidden;background:#090916; }
+    .blog-card-body { padding:1.5rem;flex:1;display:flex;flex-direction:column; }
+    .blog-card-title { font-size:1rem;font-weight:600;letter-spacing:-.01em;line-height:1.35;margin:.75rem 0 .6rem; }
+    .blog-card-meta { display:flex;align-items:center;gap:.75rem;font-family:var(--mono);font-size:.68rem;color:var(--fg-muted);margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border); }
+    .blog-card-meta .dot { color:var(--border); }
+    .post-tag { display:inline-block;font-family:var(--mono);font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .75rem;border:1px solid color-mix(in srgb,var(--cyan) 40%,transparent);background:color-mix(in srgb,var(--cyan) 15%,transparent);color:var(--cyan);border-radius:4px; }
+    .post-tag.pink { color:var(--pink);border-color:color-mix(in srgb,var(--pink) 40%,transparent);background:color-mix(in srgb,var(--pink) 10%,transparent); }
+    .post-tag.purple { color:var(--purple);border-color:color-mix(in srgb,var(--purple) 40%,transparent);background:color-mix(in srgb,var(--purple) 10%,transparent); }
+  </style>
+
+</body>
+</html>

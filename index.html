@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CIPHER — Zero-Trust Web3 Infrastructure</title>
+  <meta name="description" content="The encrypted backbone the decentralized future runs on. Zero-trust. Unstoppable." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<!-- ─── Nav ──────────────────────────────────────────────────────────────── -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">CIPHER<span>_</span></a>
+    <nav class="nav-links">
+      <a href="features.html">Protocol</a>
+      <a href="pricing.html">Access</a>
+      <a href="blog.html">Dispatch</a>
+      <a href="#">Docs</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="#" class="nav-ghost">Sign in</a>
+      <a href="#" class="nav-cta magnetic">Connect_Wallet</a>
+    </div>
+    <button class="nav-hamburger" aria-label="Open menu">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ─── Hero ─────────────────────────────────────────────────────────────── -->
+<section class="hero-section">
+  <!-- Canvas particle network -->
+  <canvas id="hero-canvas" class="hero-canvas" aria-hidden="true"></canvas>
+
+  <!-- Glow orbs -->
+  <div class="hero-orbs" aria-hidden="true">
+    <div class="orb orb-cyan"></div>
+    <div class="orb orb-pink"></div>
+    <div class="orb orb-purple"></div>
+  </div>
+
+  <!-- Grid overlay -->
+  <div class="hero-grid" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="badge cyber">
+        <span class="badge-pulse"></span>
+        Node v4.2.1 — Network online
+      </span>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="hero-line glitch" data-text="ZERO-TRUST">ZERO-TRUST</span>
+      <span class="hero-line">INFRASTRUCTURE</span>
+      <span class="hero-line hero-line--accent">FOR THE UNGOVERNABLE</span>
+    </h1>
+
+    <p class="hero-sub">The encrypted backbone the decentralized future runs on.<br>
+    Sub-10ms latency. Military-grade cryptography. Unstoppable.</p>
+
+    <div class="hero-cta">
+      <a href="#" class="btn-primary magnetic">$ cipher init --now</a>
+      <a href="#" class="btn-outline magnetic">View whitepaper →</a>
+    </div>
+
+    <!-- Live network stats -->
+    <div class="hero-stats">
+      <div class="hstat">
+        <span class="hstat-val" data-target="12.4" data-suffix="M" data-dec="1"></span>
+        <span class="hstat-label">Nodes online</span>
+      </div>
+      <div class="hstat-sep"></div>
+      <div class="hstat">
+        <span class="hstat-val" data-target="99.997" data-suffix="%" data-dec="3"></span>
+        <span class="hstat-label">Network uptime</span>
+      </div>
+      <div class="hstat-sep"></div>
+      <div class="hstat">
+        <span class="hstat-val" data-target="8.3" data-suffix="ms" data-dec="1"></span>
+        <span class="hstat-label">Avg latency</span>
+      </div>
+      <div class="hstat-sep"></div>
+      <div class="hstat">
+        <span class="hstat-val" data-target="4200" data-suffix="+" data-dec="0"></span>
+        <span class="hstat-label">Active protocols</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Terminal card -->
+  <div class="hero-terminal-wrap">
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot r"></div>
+        <div class="terminal-dot y"></div>
+        <div class="terminal-dot g"></div>
+        <span class="terminal-label">cipher — node_connect</span>
+      </div>
+      <div class="terminal-body" id="hero-terminal">
+        <div><span class="t-prompt">❯</span> <span class="t-cmd">cipher connect --network mainnet</span></div>
+        <div class="t-out">  Initializing secure handshake...</div>
+        <div class="t-out">  ✓ TLS 1.3 established</div>
+        <div class="t-out">  ✓ Zero-knowledge proof verified</div>
+        <div class="t-out">  ✓ Node authenticated [<span class="t-ok">0x4a2f...c81d</span>]</div>
+        <div><span class="t-prompt">❯</span> <span class="t-cmd">cipher status --live</span></div>
+        <div class="t-out">  Network: <span class="t-ok">ONLINE</span> | Peers: <span class="t-num">2,847</span> | TPS: <span class="t-num">94,200</span></div>
+        <div><span class="t-prompt">❯</span> <span class="t-cursor"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Marquee ───────────────────────────────────────────────────────────── -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item"><span>Zero-Knowledge Proofs</span><span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>End-to-End Encryption</span><span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Byzantine Fault Tolerant</span><span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Post-Quantum Cryptography</span><span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Decentralized Identity</span><span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Smart Contract Audited</span><span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Multi-Party Computation</span><span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Permissionless Access</span><span class="marquee-sep">◆</span></div>
+    <!-- Duplicate for seamless loop -->
+    <div class="marquee-item"><span>Zero-Knowledge Proofs</span><span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>End-to-End Encryption</span><span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Byzantine Fault Tolerant</span><span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Post-Quantum Cryptography</span><span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Decentralized Identity</span><span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Smart Contract Audited</span><span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Multi-Party Computation</span><span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Permissionless Access</span><span class="marquee-sep">◆</span></div>
+  </div>
+</div>
+
+<!-- ─── Protocol Features (Bento) ────────────────────────────────────────── -->
+<section class="features-section">
+  <div class="container">
+    <div class="features-header">
+      <p class="section-label">Protocol</p>
+      <h2 class="section-title glitch" data-text="The stack they can't touch">The stack they can't touch</h2>
+      <p class="section-sub">Military-grade cryptography meets sub-10ms global infrastructure. Built for adversarial conditions.</p>
+    </div>
+
+    <div class="bento-grid">
+      <!-- Large card: Encryption -->
+      <div class="bento-card bento-large holo-card" data-reveal>
+        <div class="bento-badge"><span class="badge cyber">Encryption</span></div>
+        <h3 class="bento-title">Post-Quantum<br>Key Exchange</h3>
+        <p class="bento-body">CRYSTALS-Kyber lattice-based encryption. Immune to both classical and quantum attacks. Your keys, always yours.</p>
+        <div class="bento-visual crypto-visual">
+          <div class="crypto-ring crypto-ring--1"></div>
+          <div class="crypto-ring crypto-ring--2"></div>
+          <div class="crypto-ring crypto-ring--3"></div>
+          <div class="crypto-hex-grid" aria-hidden="true">
+            <span>01101001</span><span>11010011</span><span>00101110</span>
+            <span>10110100</span><span>01011010</span><span>11001011</span>
+            <span>00110101</span><span>10100110</span><span>01101100</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stat card: Latency -->
+      <div class="bento-card bento-stat holo-card" data-reveal>
+        <div class="bento-stat-num neon-text flicker">8.3<span class="bento-stat-unit">ms</span></div>
+        <div class="bento-stat-label">Global P50 Latency</div>
+        <div class="bento-stat-sub">Across 47 edge nodes worldwide</div>
+        <div class="pulse-bars" aria-hidden="true">
+          <div class="pulse-bar" style="--h:40%"></div>
+          <div class="pulse-bar" style="--h:70%"></div>
+          <div class="pulse-bar" style="--h:55%"></div>
+          <div class="pulse-bar" style="--h:90%"></div>
+          <div class="pulse-bar" style="--h:65%"></div>
+          <div class="pulse-bar" style="--h:80%"></div>
+          <div class="pulse-bar" style="--h:45%"></div>
+          <div class="pulse-bar" style="--h:95%"></div>
+        </div>
+      </div>
+
+      <!-- Stat card: ZKP -->
+      <div class="bento-card bento-stat bento-pink holo-card" data-reveal>
+        <div class="bento-stat-num pink-text flicker-2">100%<span class="bento-stat-unit"></span></div>
+        <div class="bento-stat-label">Zero-Knowledge</div>
+        <div class="bento-stat-sub">Prove without revealing</div>
+        <div class="zkp-visual" aria-hidden="true">
+          <div class="zkp-node zkp-node--a">Prover</div>
+          <div class="zkp-arrow">⟶</div>
+          <div class="zkp-node zkp-node--b">Verifier</div>
+        </div>
+      </div>
+
+      <!-- Wide card: Network topology -->
+      <div class="bento-card bento-wide holo-card" data-reveal>
+        <div class="bento-badge"><span class="badge purple">Network</span></div>
+        <h3 class="bento-title">Decentralized Mesh Routing</h3>
+        <p class="bento-body">No single point of failure. Traffic routes through the shortest, most secure path automatically.</p>
+        <div class="network-visual" aria-hidden="true">
+          <div class="net-node net-node--main">CIPHER</div>
+          <div class="net-node net-node--a">Node A</div>
+          <div class="net-node net-node--b">Node B</div>
+          <div class="net-node net-node--c">Node C</div>
+          <div class="net-node net-node--d">Node D</div>
+          <svg class="net-lines" viewBox="0 0 300 120" preserveAspectRatio="none">
+            <line x1="150" y1="60" x2="30"  y2="20"  class="net-line"/>
+            <line x1="150" y1="60" x2="270" y2="20"  class="net-line"/>
+            <line x1="150" y1="60" x2="50"  y2="100" class="net-line"/>
+            <line x1="150" y1="60" x2="250" y2="100" class="net-line"/>
+            <line x1="30"  y1="20" x2="50"  y2="100" class="net-line net-line--dim"/>
+            <line x1="270" y1="20" x2="250" y2="100" class="net-line net-line--dim"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- SDK card -->
+      <div class="bento-card holo-card" data-reveal>
+        <div class="bento-badge"><span class="badge cyber">SDK</span></div>
+        <h3 class="bento-title">Any Stack</h3>
+        <p class="bento-body">TypeScript, Rust, Go, Python. One API. Full coverage.</p>
+        <div class="lang-tags">
+          <span class="lang-tag">TypeScript</span>
+          <span class="lang-tag active">Rust</span>
+          <span class="lang-tag">Go</span>
+          <span class="lang-tag">Python</span>
+          <span class="lang-tag">Solidity</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── How It Works (3-step process) ────────────────────────────────────── -->
+<section class="process-section">
+  <div class="container">
+    <div class="process-header">
+      <p class="section-label">Process</p>
+      <h2 class="section-title">Online in three commands</h2>
+    </div>
+
+    <div class="process-steps">
+      <div class="process-step" data-step>
+        <div class="step-num font-mono">01</div>
+        <h3 class="step-title">Initialize your node</h3>
+        <p class="step-body">Generate your cryptographic identity. Keys never leave your hardware — not even during provisioning.</p>
+        <div class="terminal" style="margin-top:1.5rem">
+          <div class="terminal-bar">
+            <div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div>
+          </div>
+          <div class="terminal-body">
+            <div><span class="t-prompt">❯</span> <span class="t-cmd">npm install -g cipher-cli</span></div>
+            <div><span class="t-prompt">❯</span> <span class="t-cmd">cipher keygen --hd --algo kyber</span></div>
+            <div class="t-ok">  ✓ HD keypair generated (BIP-39 compatible)</div>
+            <div class="t-ok">  ✓ Encrypted vault created at ~/.cipher/</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="process-connector" aria-hidden="true">
+        <div class="connector-line"></div>
+        <div class="connector-pulse"></div>
+      </div>
+
+      <div class="process-step" data-step>
+        <div class="step-num font-mono">02</div>
+        <h3 class="step-title">Deploy your protocol</h3>
+        <p class="step-body">Define rules in plain TypeScript. Cipher compiles to bytecode, audits automatically, and deploys to the network.</p>
+        <div class="terminal" style="margin-top:1.5rem">
+          <div class="terminal-bar">
+            <div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div>
+          </div>
+          <div class="terminal-body">
+            <div><span class="t-prompt">❯</span> <span class="t-cmd">cipher deploy ./protocols/vault.ts</span></div>
+            <div class="t-out">  Compiling... <span class="t-ok">✓</span></div>
+            <div class="t-out">  Running security audit... <span class="t-ok">✓ 0 vulnerabilities</span></div>
+            <div class="t-out">  Deploying to mainnet...</div>
+            <div class="t-ok">  ✓ Live at cipher://vault.0x4a2f</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="process-connector" aria-hidden="true">
+        <div class="connector-line"></div>
+        <div class="connector-pulse"></div>
+      </div>
+
+      <div class="process-step" data-step>
+        <div class="step-num font-mono">03</div>
+        <h3 class="step-title">Scale to any demand</h3>
+        <p class="step-body">Automatic horizontal scaling across 47 global edge nodes. Pay per packet. No upfront costs, no vendor lock-in.</p>
+        <div class="terminal" style="margin-top:1.5rem">
+          <div class="terminal-bar">
+            <div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div>
+          </div>
+          <div class="terminal-body">
+            <div><span class="t-prompt">❯</span> <span class="t-cmd">cipher monitor --protocol vault.0x4a2f</span></div>
+            <div class="t-out">  Requests/s: <span class="t-num">94,200</span></div>
+            <div class="t-out">  Active nodes: <span class="t-num">12</span> / 47</div>
+            <div class="t-out">  Cost: <span class="t-ok">$0.0000012</span> / req</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Live network data ─────────────────────────────────────────────────── -->
+<section class="network-section">
+  <div class="container">
+    <div class="network-header">
+      <p class="section-label">Live Network</p>
+      <h2 class="section-title">The numbers don't lie</h2>
+    </div>
+    <div class="metrics-grid">
+      <div class="metric-card holo-card" data-reveal>
+        <div class="metric-num neon-text" data-target="94200" data-suffix="">0</div>
+        <div class="metric-label">Transactions / second</div>
+        <div class="metric-chart">
+          <div class="mbar" style="--h:60%"></div><div class="mbar" style="--h:75%"></div>
+          <div class="mbar" style="--h:55%"></div><div class="mbar" style="--h:90%"></div>
+          <div class="mbar" style="--h:70%"></div><div class="mbar active" style="--h:95%"></div>
+        </div>
+      </div>
+      <div class="metric-card holo-card" data-reveal>
+        <div class="metric-num pink-text" data-target="12.4" data-suffix="M" data-dec="1">0</div>
+        <div class="metric-label">Active nodes globally</div>
+        <div class="metric-sub">↑ 23% this month</div>
+      </div>
+      <div class="metric-card holo-card" data-reveal>
+        <div class="metric-num" style="color:var(--acid);text-shadow:0 0 20px rgba(180,255,57,0.4)" data-target="847" data-suffix="K" data-dec="0">0</div>
+        <div class="metric-label">Protocols deployed</div>
+        <div class="metric-sub">Audited + verified</div>
+      </div>
+      <div class="metric-card holo-card" data-reveal>
+        <div class="metric-num neon-text" data-target="0" data-suffix="breaches">0</div>
+        <div class="metric-label">Security incidents</div>
+        <div class="metric-sub">Since network launch</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Testimonials marquee ──────────────────────────────────────────────── -->
+<section class="testi-section">
+  <div class="testi-header container">
+    <p class="section-label">Signal</p>
+    <h2 class="section-title">Operators trust CIPHER</h2>
+  </div>
+  <div class="marquee-wrap testi-marquee">
+    <div class="marquee-track testi-track">
+      <div class="testi-card">
+        <p class="testi-quote">"Migrated our entire DeFi stack in a weekend. Latency dropped 80%. We're not going back."</p>
+        <div class="testi-author"><div class="testi-avatar av-cyan">KR</div><div><strong>Kira Ramos</strong><span>CTO, NeuralVault Protocol</span></div></div>
+      </div>
+      <div class="testi-card">
+        <p class="testi-quote">"The ZK proof system is the real deal. We can verify transactions without exposing any user data."</p>
+        <div class="testi-author"><div class="testi-avatar av-pink">DM</div><div><strong>Dev Mahajan</strong><span>Lead Engineer, ShadowPay</span></div></div>
+      </div>
+      <div class="testi-card">
+        <p class="testi-quote">"8ms global latency with zero downtime in 14 months. We'd have paid 10x for this quality anywhere else."</p>
+        <div class="testi-author"><div class="testi-avatar av-purple">ZX</div><div><strong>Zara Xu</strong><span>Founder, GhostDAO</span></div></div>
+      </div>
+      <div class="testi-card">
+        <p class="testi-quote">"The on-chain audit trail gives our compliance team exactly what they need. Finally, crypto that enterprises can use."</p>
+        <div class="testi-author"><div class="testi-avatar av-cyan">MO</div><div><strong>Marcus Osei</strong><span>Head of Infrastructure, Meridian</span></div></div>
+      </div>
+      <!-- Duplicate -->
+      <div class="testi-card">
+        <p class="testi-quote">"Migrated our entire DeFi stack in a weekend. Latency dropped 80%. We're not going back."</p>
+        <div class="testi-author"><div class="testi-avatar av-cyan">KR</div><div><strong>Kira Ramos</strong><span>CTO, NeuralVault Protocol</span></div></div>
+      </div>
+      <div class="testi-card">
+        <p class="testi-quote">"The ZK proof system is the real deal. We can verify transactions without exposing any user data."</p>
+        <div class="testi-author"><div class="testi-avatar av-pink">DM</div><div><strong>Dev Mahajan</strong><span>Lead Engineer, ShadowPay</span></div></div>
+      </div>
+      <div class="testi-card">
+        <p class="testi-quote">"8ms global latency with zero downtime in 14 months. We'd have paid 10x for this quality anywhere else."</p>
+        <div class="testi-author"><div class="testi-avatar av-purple">ZX</div><div><strong>Zara Xu</strong><span>Founder, GhostDAO</span></div></div>
+      </div>
+      <div class="testi-card">
+        <p class="testi-quote">"The on-chain audit trail gives our compliance team exactly what they need. Finally, crypto that enterprises can use."</p>
+        <div class="testi-author"><div class="testi-avatar av-cyan">MO</div><div><strong>Marcus Osei</strong><span>Head of Infrastructure, Meridian</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ───────────────────────────────────────────────────────────────── -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-glow-cyan" aria-hidden="true"></div>
+      <div class="cta-glow-pink" aria-hidden="true"></div>
+      <p class="section-label" style="justify-content:center">Initialize</p>
+      <h2 class="cta-title glitch" data-text="JOIN THE NETWORK">JOIN THE NETWORK</h2>
+      <p class="cta-sub">4,200+ protocols running on CIPHER. Be the next one. Start free, scale permissionlessly.</p>
+      <div class="cta-actions">
+        <a href="#" class="btn-primary magnetic">$ cipher init --network mainnet</a>
+        <a href="#" class="btn-ghost">Read the whitepaper →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Footer ────────────────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-logo">CIPHER<span>_</span></div>
+        <p class="footer-tagline">Zero-trust. Unstoppable.<br>The network the future runs on.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <div class="footer-col-title">Protocol</div>
+          <a href="features.html">Architecture</a>
+          <a href="features.html">Encryption</a>
+          <a href="features.html">ZK Proofs</a>
+          <a href="features.html">Network</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Resources</div>
+          <a href="blog.html">Dispatch</a>
+          <a href="#">Documentation</a>
+          <a href="#">Whitepaper</a>
+          <a href="#">GitHub</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Network</div>
+          <a href="#">Node Status</a>
+          <a href="#">Governance</a>
+          <a href="#">Community</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 CIPHER Protocol. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Security</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="/src/home.js"></script>
+
+<style>
+/* ─── Hero ──────────────────────────────────────────────────────────────── */
+.hero-section{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;padding:8rem var(--px) 0;text-align:center;overflow:hidden}
+.hero-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.hero-orbs{position:absolute;inset:0;pointer-events:none;z-index:0}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);animation:orb-drift 12s ease-in-out infinite alternate}
+.orb-cyan{width:600px;height:600px;background:radial-gradient(circle,rgba(0,245,212,.18),transparent 70%);top:-20%;left:-10%;animation-duration:14s}
+.orb-pink{width:500px;height:500px;background:radial-gradient(circle,rgba(245,0,213,.14),transparent 70%);top:10%;right:-5%;animation-duration:11s;animation-delay:-3s}
+.orb-purple{width:400px;height:400px;background:radial-gradient(circle,rgba(112,0,255,.12),transparent 70%);bottom:-10%;left:30%;animation-duration:16s;animation-delay:-6s}
+@keyframes orb-drift{from{transform:translate(0,0) scale(1)}to{transform:translate(40px,60px) scale(1.15)}}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,245,212,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,212,.04) 1px,transparent 1px);background-size:50px 50px;mask:radial-gradient(ellipse 80% 60% at 50% 0%,transparent 20%,black 75%);-webkit-mask:radial-gradient(ellipse 80% 60% at 50% 0%,transparent 20%,black 75%);z-index:0}
+.hero-content{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;max-width:950px;width:100%}
+.hero-eyebrow{margin-bottom:2rem}
+.hero-title{font-size:var(--t-6xl);font-weight:700;letter-spacing:-.04em;line-height:1.0;margin-bottom:1.5rem;text-wrap:balance}
+.hero-line{display:block}
+.hero-line--accent{background:linear-gradient(135deg,var(--cyan) 0%,var(--pink) 60%,var(--purple) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:var(--t-xl);color:var(--text-2);max-width:50ch;line-height:1.65;margin-bottom:2.5rem}
+.hero-cta{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-bottom:3rem}
+.hero-stats{display:flex;align-items:center;flex-wrap:wrap;justify-content:center;padding:1.25rem 2rem;background:rgba(10,10,30,.8);border:1px solid var(--border);border-radius:var(--r-xl);backdrop-filter:blur(12px);gap:0;margin-bottom:4rem;font-family:var(--mono)}
+.hstat{display:flex;flex-direction:column;align-items:center;padding:.25rem 2rem}
+.hstat-val{font-size:var(--t-xl);font-weight:700;color:var(--cyan);text-shadow:0 0 16px var(--cyan-glow)}
+.hstat-label{font-size:var(--t-xs);color:var(--text-3);letter-spacing:.06em;text-transform:uppercase;margin-top:.2rem}
+.hstat-sep{width:1px;height:32px;background:var(--border)}
+
+/* Terminal hero */
+.hero-terminal-wrap{position:relative;z-index:1;width:100%;max-width:680px;padding:0 var(--px) 5rem;margin:0 auto}
+
+/* ─── Bento grid ────────────────────────────────────────────────────────── */
+.features-section{padding:var(--section-gap) var(--px)}
+.features-header{text-align:center;max-width:var(--max-w);margin:0 auto 3.5rem}
+.bento-grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:auto auto;gap:1.25rem;max-width:var(--max-w);margin:0 auto}
+.bento-card{padding:2rem;position:relative;overflow:hidden}
+.bento-badge{margin-bottom:1rem}
+.bento-title{font-size:var(--t-2xl);font-weight:700;letter-spacing:-.03em;line-height:1.2;margin-bottom:.75rem}
+.bento-body{font-size:var(--t-sm);color:var(--text-2);line-height:1.65;max-width:38ch}
+.bento-large{grid-row:1/2}
+.bento-stat{display:flex;flex-direction:column}
+.bento-stat-num{font-family:var(--mono);font-size:var(--t-5xl);font-weight:700;line-height:1;letter-spacing:-.04em}
+.bento-stat-unit{font-size:var(--t-2xl)}
+.bento-stat-label{font-size:var(--t-sm);font-weight:600;color:var(--text);margin-top:.5rem}
+.bento-stat-sub{font-size:var(--t-xs);color:var(--text-3);margin-top:.25rem}
+.bento-wide{grid-column:1/3;grid-row:2/3}
+.bento-pink{background:linear-gradient(135deg,rgba(245,0,213,.06),var(--bg-card));border-color:rgba(245,0,213,.15)}
+
+/* Crypto visual */
+.crypto-visual{position:absolute;bottom:-20px;right:-20px;width:160px;height:160px;opacity:.5}
+.crypto-ring{position:absolute;border-radius:50%;border:1px solid var(--cyan);top:50%;left:50%;transform:translate(-50%,-50%)}
+.crypto-ring--1{width:80px;height:80px;animation:ring-spin 8s linear infinite}
+.crypto-ring--2{width:120px;height:120px;border-color:var(--pink);border-style:dashed;animation:ring-spin 12s linear infinite reverse}
+.crypto-ring--3{width:155px;height:155px;border-color:var(--purple);animation:ring-spin 20s linear infinite}
+@keyframes ring-spin{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+.crypto-hex-grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;font-family:var(--mono);font-size:.4rem;color:var(--text-3);overflow:hidden;align-content:start;padding:8px}
+.crypto-hex-grid span{white-space:nowrap;animation:hex-flicker 3s ease-in-out infinite}
+.crypto-hex-grid span:nth-child(2n){animation-delay:.5s;color:var(--cyan);opacity:.5}
+.crypto-hex-grid span:nth-child(3n){animation-delay:1s}
+@keyframes hex-flicker{0%,100%{opacity:.3}50%{opacity:.8}}
+
+/* Pulse bars */
+.pulse-bars{display:flex;align-items:flex-end;gap:3px;height:40px;margin-top:auto;padding-top:1rem}
+.pulse-bar{flex:1;height:var(--h,50%);background:var(--cyan);border-radius:2px 2px 0 0;opacity:.5;animation:bar-pulse 2s ease-in-out infinite}
+.pulse-bar:nth-child(2n){animation-delay:.3s;background:var(--pink)}
+.pulse-bar:nth-child(3n){animation-delay:.6s}
+@keyframes bar-pulse{0%,100%{opacity:.3;transform:scaleY(.9)}50%{opacity:.8;transform:scaleY(1)}}
+
+/* ZKP visual */
+.zkp-visual{display:flex;align-items:center;gap:.75rem;margin-top:auto;padding-top:1rem}
+.zkp-node{padding:.35rem .75rem;border-radius:var(--r-sm);font-family:var(--mono);font-size:var(--t-xs);font-weight:700}
+.zkp-node--a{background:var(--cyan-dim);border:1px solid rgba(0,245,212,.3);color:var(--cyan)}
+.zkp-node--b{background:var(--pink-dim);border:1px solid rgba(245,0,213,.3);color:var(--pink)}
+.zkp-arrow{color:var(--text-3);font-size:var(--t-sm);animation:arrow-pulse 2s ease-in-out infinite}
+@keyframes arrow-pulse{0%,100%{opacity:.3;transform:translateX(-3px)}50%{opacity:1;transform:translateX(3px)}}
+
+/* Network visual */
+.network-visual{position:absolute;bottom:1rem;right:1rem;width:300px;height:120px;pointer-events:none}
+.net-node{position:absolute;padding:.25rem .6rem;border-radius:var(--r-sm);font-family:var(--mono);font-size:.65rem;font-weight:700;background:var(--bg-3);border:1px solid var(--border)}
+.net-node--main{left:50%;top:50%;transform:translate(-50%,-50%);border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 12px var(--cyan-glow)}
+.net-node--a{left:3%;top:5%}
+.net-node--b{right:3%;top:5%}
+.net-node--c{left:10%;bottom:5%}
+.net-node--d{right:10%;bottom:5%}
+.net-lines{position:absolute;inset:0;width:100%;height:100%}
+.net-line{stroke:var(--cyan);stroke-width:.8;stroke-dasharray:4 4;opacity:.4;animation:line-flow 3s linear infinite}
+.net-line--dim{opacity:.15}
+@keyframes line-flow{from{stroke-dashoffset:0}to{stroke-dashoffset:-16}}
+
+/* Language tags */
+.lang-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:auto;padding-top:1.25rem}
+.lang-tag{padding:.3rem .75rem;border-radius:100px;font-family:var(--mono);font-size:var(--t-xs);font-weight:600;color:var(--text-3);background:var(--bg-3);border:1px solid var(--border);transition:all .2s}
+.lang-tag.active{color:var(--cyan);background:var(--cyan-dim);border-color:rgba(0,245,212,.35);box-shadow:0 0 10px var(--cyan-glow)}
+.lang-tag:hover{color:var(--cyan);border-color:var(--border-2)}
+
+/* ─── Process ───────────────────────────────────────────────────────────── */
+.process-section{padding:var(--section-gap) var(--px);background:linear-gradient(180deg,transparent,rgba(0,245,212,.03),transparent)}
+.process-header{text-align:center;margin-bottom:3.5rem}
+.process-steps{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:0;max-width:var(--max-w);margin:0 auto;align-items:start}
+.process-step{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-xl);padding:2rem}
+.step-num{font-family:var(--mono);font-size:var(--t-5xl);font-weight:700;color:var(--cyan);opacity:.15;line-height:1;margin-bottom:.75rem}
+.step-title{font-size:var(--t-xl);font-weight:700;margin-bottom:.5rem;letter-spacing:-.02em}
+.step-body{font-size:var(--t-sm);color:var(--text-2);line-height:1.65}
+.process-connector{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 1rem;padding-top:3rem}
+.connector-line{width:40px;height:1px;background:linear-gradient(90deg,var(--cyan),var(--pink));box-shadow:0 0 8px var(--cyan-glow)}
+.connector-pulse{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan-glow);margin-top:.5rem;animation:pulse-ring 2s ease-out infinite}
+
+/* ─── Network stats ─────────────────────────────────────────────────────── */
+.network-section{padding:var(--section-gap) var(--px)}
+.network-header{text-align:center;margin-bottom:3rem}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;max-width:var(--max-w);margin:0 auto}
+.metric-card{padding:2rem;display:flex;flex-direction:column}
+.metric-num{font-family:var(--mono);font-size:var(--t-4xl);font-weight:700;letter-spacing:-.04em;line-height:1}
+.metric-label{font-size:var(--t-sm);color:var(--text-2);margin-top:.5rem}
+.metric-sub{font-family:var(--mono);font-size:var(--t-xs);color:var(--acid);margin-top:.35rem}
+.metric-chart{display:flex;align-items:flex-end;gap:3px;height:32px;margin-top:auto;padding-top:1rem}
+.mbar{flex:1;height:var(--h,50%);background:var(--cyan);border-radius:2px 2px 0 0;opacity:.35}
+.mbar.active{opacity:.9;box-shadow:0 0 8px var(--cyan-glow)}
+
+/* ─── Testimonials ──────────────────────────────────────────────────────── */
+.testi-section{padding:var(--section-gap) 0}
+.testi-header{text-align:center;margin-bottom:3rem}
+.testi-marquee{border-color:rgba(245,0,213,.15)}
+.testi-track{animation-duration:40s}
+.testi-card{width:360px;flex-shrink:0;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-xl);padding:1.75rem 2rem;margin:0 .6rem}
+.testi-quote{font-size:var(--t-sm);color:var(--text-2);line-height:1.7;margin-bottom:1.25rem;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:.75rem}
+.testi-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:var(--t-xs);font-weight:700;flex-shrink:0}
+.av-cyan{background:var(--cyan-dim);border:1px solid rgba(0,245,212,.3);color:var(--cyan)}
+.av-pink{background:var(--pink-dim);border:1px solid rgba(245,0,213,.3);color:var(--pink)}
+.av-purple{background:var(--purple-dim);border:1px solid rgba(112,0,255,.3);color:#a855f7}
+.testi-author strong{display:block;font-size:var(--t-sm);font-weight:600}
+.testi-author span{font-size:var(--t-xs);color:var(--text-3)}
+
+/* ─── CTA ───────────────────────────────────────────────────────────────── */
+.cta-section{padding:var(--section-gap) var(--px) 5rem}
+.cta-inner{position:relative;text-align:center;padding:6rem 2rem;background:var(--bg-card);border:1px solid var(--border);border-radius:32px;overflow:hidden;max-width:var(--max-w);margin:0 auto}
+.cta-glow-cyan{position:absolute;top:50%;left:30%;transform:translate(-50%,-60%);width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(0,245,212,.12),transparent 65%);filter:blur(40px);pointer-events:none}
+.cta-glow-pink{position:absolute;top:50%;right:10%;transform:translate(0,-50%);width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(245,0,213,.1),transparent 65%);filter:blur(40px);pointer-events:none}
+.cta-title{position:relative;font-family:var(--mono);font-size:var(--t-5xl);font-weight:700;letter-spacing:.04em;margin-bottom:1rem;color:var(--cyan);text-shadow:0 0 40px var(--cyan-glow)}
+.cta-sub{position:relative;font-size:var(--t-lg);color:var(--text-2);max-width:50ch;margin:0 auto 2.5rem;line-height:1.6}
+.cta-actions{position:relative;display:flex;align-items:center;justify-content:center;gap:1.25rem;flex-wrap:wrap}
+
+/* ─── Responsive ────────────────────────────────────────────────────────── */
+@media(max-width:1000px){.bento-grid{grid-template-columns:1fr 1fr}.bento-large{grid-column:1/3}.bento-wide{grid-column:1/3}.process-steps{grid-template-columns:1fr;gap:1.5rem}.process-connector{flex-direction:row;padding:0;width:100%}.connector-line{width:100%;height:1px}.metrics-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.bento-grid{grid-template-columns:1fr}.bento-large{grid-column:auto}.bento-wide{grid-column:auto}.hero-stats{gap:0;padding:1rem}.hstat{padding:.5rem 1rem}.hstat-sep{display:none}.network-visual{display:none}.metrics-grid{grid-template-columns:1fr}.testi-card{width:300px}.cta-title{font-size:var(--t-4xl)}}
+</style>
