@@ -183,14 +183,11 @@ export function initParticles(canvasId) {
       if (p.x < 0) p.x = W; if (p.x > W) p.x = 0
       if (p.y < 0) p.y = H; if (p.y > H) p.y = 0
 
-      // Draw node
+      // Draw node — no shadowBlur (CPU path, very expensive)
       ctx.beginPath()
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-      ctx.fillStyle = rgb(p.col, 0.85)
-      ctx.shadowBlur = 8
-      ctx.shadowColor = rgb(p.col, 0.5)
+      ctx.fillStyle = rgb(p.col, 0.9)
       ctx.fill()
-      ctx.shadowBlur = 0
     }
 
     // Connections (bounding-box fast reject before sqrt)
